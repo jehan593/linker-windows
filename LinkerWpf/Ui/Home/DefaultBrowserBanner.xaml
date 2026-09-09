@@ -1,0 +1,15 @@
+<UserControl x:Class="Linker.Ui.Home.DefaultBrowserBanner"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Border Background="{DynamicResource PrimaryContainerBrush}" CornerRadius="12" Margin="16" Padding="16">
+        <StackPanel>
+            <TextBlock Text="Linker isn't your default browser yet" Style="{StaticResource title}"
+                       Foreground="{DynamicResource OnPrimaryContainerBrush}" FontSize="14"/>
+            <TextBlock Text="Make Linker your default so every link opens with a chooser first."
+                       Foreground="{DynamicResource OnPrimaryContainerBrush}" FontSize="12" TextWrapping="Wrap"
+                       Margin="0,4,0,12"/>
+            <Button Content="Set as default browser" Style="{StaticResource FilledButtonTheme}"
+                    HorizontalAlignment="Left" Click="OnRequestDefaultClick"/>
+        </StackPanel>
+    </Border>
+</UserControl>

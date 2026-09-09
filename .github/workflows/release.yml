@@ -1,0 +1,80 @@
+name: Release
+
+# Run manually from the Actions tab, or with
+# `gh workflow run release.yml -f version=1.2.0`. Leave the version blank
+# to bump the patch version (1.0.0 -> 1.0.1).
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to release (e.g. 1.2.0). Leave blank to auto-bump."
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Resolve version
+        id: version
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -n "${{ inputs.version }}" ]; then
+            version="${{ inputs.version }}"
+          else
+            latest=$(gh release list --limit 1 --json tagName --jq '.[0].tagName' 2>/dev/null || true)
+            if [ -z "$latest" ]; then
+              version="1.0.0"
+            else
+              latest="${latest#v}"
+              major=$(echo "$latest" | cut -d. -f1)
+              minor=$(echo "$latest" | cut -d. -f2)
+              patch=$(echo "$latest" | cut -d. -f3)
+              version="$major.$minor.$((patch + 1))"
+            fi
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "Resolved release version: $version"
+
+      - name: Get commit messages since last release
+        id: commit_message
+        shell: bash
+        run: |
+          LAST_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          RANGE="${LAST_TAG:+$LAST_TAG..}HEAD"
+          {
+            echo 'message<<EOF'
+            git log "$RANGE" --pretty='- %s'
+            echo EOF
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Publish
+        working-directory: LinkerWpf
+        run: dotnet publish -c Release -o publish
+
+      - name: Install Inno Setup
+        run: choco install innosetup --no-progress -y
+
+      - name: Build installer
+        working-directory: installer
+        shell: pwsh
+        run: '& "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" /DAppVersion=${{ steps.version.outputs.version }} linker.iss'
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          name: v${{ steps.version.outputs.version }}
+          files: installer/Output/LinkerSetup.exe
+          body: ${{ steps.commit_message.outputs.message }}

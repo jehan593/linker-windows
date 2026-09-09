@@ -1,0 +1,92 @@
+<Window x:Class="Linker.Ui.Browsers.EditBrowserDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Edit browser" Height="560" Width="460" MinHeight="420" MinWidth="380"
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
+        Background="{DynamicResource SurfaceContainerHighBrush}">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock x:Name="TitleText" Grid.Row="0" Text="Edit browser" Style="{StaticResource title}" FontSize="18" Margin="0,0,0,16"/>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="0,0,0,12">
+            <StackPanel>
+                <Grid Margin="0,0,0,16">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Column="0" Width="48" Height="48" CornerRadius="8"
+                            Background="{DynamicResource SurfaceContainerBrush}" Margin="0,0,12,0">
+                        <Image x:Name="PreviewIconImage" Width="32" Height="32"/>
+                    </Border>
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="Change icon..." Style="{StaticResource TextButtonTheme}"
+                                    Foreground="{DynamicResource PrimaryBrush}" Padding="8,4" Click="OnBrowseIconClick"/>
+                            <Button Content="Use default" Style="{StaticResource TextButtonTheme}"
+                                    Foreground="{DynamicResource OnSurfaceVariantBrush}" Padding="8,4" Click="OnClearIconClick"/>
+                        </StackPanel>
+                        <TextBlock x:Name="IconPathHintText" Style="{StaticResource bodySmall}" FontSize="11"
+                                   TextWrapping="Wrap" Margin="0,4,0,0"/>
+                    </StackPanel>
+                </Grid>
+
+                <StackPanel Margin="0,0,0,16">
+                    <TextBlock Text="Display name" Style="{StaticResource bodySmall}" Margin="0,0,0,4"/>
+                    <TextBox x:Name="LabelTextBox" Style="{StaticResource outlined}"/>
+                </StackPanel>
+
+                <StackPanel Margin="0,0,0,16">
+                    <TextBlock Text="Executable path" Style="{StaticResource bodySmall}" Margin="0,0,0,4"/>
+<Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBox x:Name="ExecutablePathTextBox" Grid.Row="0" Style="{StaticResource outlined}"
+                                 FontSize="12" TextWrapping="Wrap" MinLines="3" MaxLines="3" AcceptsReturn="True"
+                                 VerticalScrollBarVisibility="Auto"/>
+                        <Button Grid.Row="1" Grid.Column="0" Margin="0,6,0,0"
+                                Content="Browse..." Style="{StaticResource TextButtonTheme}"
+                                Foreground="{DynamicResource PrimaryBrush}" HorizontalAlignment="Left"
+                                Click="OnBrowseExecutableClick"/>
+                    </Grid>
+                </StackPanel>
+
+                <StackPanel>
+                    <TextBlock Text="Extra launch arguments (optional)" Style="{StaticResource bodySmall}" Margin="0,0,0,4"/>
+                    <TextBox x:Name="ArgumentsTextBox" Style="{StaticResource outlined}" FontSize="12"
+                             TextWrapping="Wrap" MinLines="3" MaxLines="3" AcceptsReturn="True"
+                             VerticalScrollBarVisibility="Auto"/>
+                    <TextBlock Style="{StaticResource bodySmall}" FontSize="11" Margin="0,4,0,0" TextWrapping="Wrap"
+                               Text="Space-separated, added before the link — e.g. --private-window --new-window. Use double quotes around an argument that contains spaces."/>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Button x:Name="ResetButton" Grid.Column="0" Content="Reset to defaults" Style="{StaticResource TextButtonTheme}"
+                    Foreground="{DynamicResource ErrorBrush}" HorizontalAlignment="Left" Click="OnResetClick"/>
+            <Button x:Name="DeleteButton" Grid.Column="0" Content="Delete" Style="{StaticResource TextButtonTheme}"
+                    Foreground="{DynamicResource ErrorBrush}" HorizontalAlignment="Left" Click="OnDeleteClick"
+                    Visibility="Collapsed"/>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Cancel" Style="{StaticResource TextButtonTheme}"
+                        Foreground="{DynamicResource OnSurfaceVariantBrush}" Click="OnCancelClick"/>
+                <Button x:Name="SaveButton" Content="Save" Style="{StaticResource FilledButtonTheme}"
+                        Click="OnSaveClick" IsDefault="True"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

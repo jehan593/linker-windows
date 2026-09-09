@@ -1,0 +1,173 @@
+<Window x:Class="Linker.Interceptor.LinkChooserWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:comp="clr-namespace:Linker.Ui.Components"
+        Title="Linker" Width="440" MinWidth="380" SizeToContent="Height" MaxHeight="700"
+        WindowStartupLocation="CenterScreen" Topmost="True" ShowInTaskbar="False" ResizeMode="NoResize"
+        Background="{DynamicResource SurfaceContainerHighBrush}"
+        Icon="/Assets/app.ico"
+        Loaded="OnWindowLoaded">
+    <Grid>
+        <Grid Margin="16">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="34"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Domain header row -->
+            <Grid Grid.Row="0" Margin="0,0,0,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="&#xE774;" FontFamily="Segoe MDL2 Assets" FontSize="16"
+                           Foreground="{DynamicResource PrimaryBrush}" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                <TextBlock Grid.Column="1" Text="{Binding EditableUrl, Converter={StaticResource UrlToHostConverter}}"
+                           Style="{StaticResource title}" FontSize="15" VerticalAlignment="Center"
+                           TextTrimming="CharacterEllipsis"/>
+
+                <Button Grid.Column="2" Style="{StaticResource IconButtonTheme}" Click="OnCopyClick" ToolTip="Copy link">
+                    <TextBlock Text="&#xE8C8;" FontFamily="Segoe MDL2 Assets" FontSize="15"/>
+                </Button>
+                <Button x:Name="SaveButton" Grid.Column="3" Style="{StaticResource IconButtonTheme}" Click="OnSaveClick" ToolTip="Save link">
+                    <Grid>
+                        <TextBlock Text="&#xE734;" FontFamily="Segoe MDL2 Assets" FontSize="15"
+                                   Foreground="{DynamicResource PrimaryBrush}">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsAlreadySaved}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                        <TextBlock Text="&#xE735;" FontFamily="Segoe MDL2 Assets" FontSize="15"
+                           Foreground="{DynamicResource OnSurfaceVariantBrush}">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsAlreadySaved}" Value="True">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Grid>
+                </Button>
+            </Grid>
+
+            <!-- URL text box -->
+            <TextBox Grid.Row="1" x:Name="UrlTextBox" Style="{StaticResource outlined}"
+                 Text="{Binding EditableUrl, UpdateSourceTrigger=PropertyChanged}"
+                 TextWrapping="Wrap" AcceptsReturn="True" MinLines="5" MaxLines="5"
+                 MinWidth="200" FontSize="12" VerticalScrollBarVisibility="Auto" Margin="0,0,0,12"/>
+
+            <Border Grid.Row="2" Height="1" Background="{DynamicResource OutlineVariantBrush}" Margin="0,0,0,12"/>
+
+            <TextBlock Grid.Row="3" Text="Open with" Style="{StaticResource label}" Margin="0,0,0,4"/>
+
+            <Grid Grid.Row="4" Height="236">
+                <TextBlock Text="Loading browsers..." HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding LoadingBrowsers}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <TextBlock Text="No browsers to show. Check Manage Browsers."
+                           TextWrapping="Wrap" Margin="0,12">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding LoadingBrowsers}" Value="False"/>
+                                        <Condition Binding="{Binding Browsers.Count}" Value="0"/>
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <ListBox ItemsSource="{Binding Browsers}" Background="Transparent" BorderThickness="0"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <ListBox.Style>
+                        <Style TargetType="ListBox">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding LoadingBrowsers}" Value="True">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListBox.Style>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Padding" Value="0"/>
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListBoxItem">
+                                        <Border x:Name="rowBg" Background="{TemplateBinding Background}" CornerRadius="8">
+                                            <ContentPresenter Content="{TemplateBinding Content}"
+                                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="rowBg" Property="Background" Value="{DynamicResource RowHoverBrush}"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="{x:Type DataRepositories:BrowserListItem}"
+                                      xmlns:DataRepositories="clr-namespace:Linker.Data.Repositories">
+                            <Grid Margin="12,8" Cursor="Hand" Background="Transparent" MouseLeftButtonUp="OnBrowserRowClick">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0" Source="{Binding Icon}" Width="28" Height="28" Margin="0,0,12,0"/>
+                                <TextBlock Grid.Column="1" Text="{Binding DisplayLabel}" VerticalAlignment="Center" FontSize="13"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+
+            <comp:ToastHostControl Grid.Row="5"/>
+
+            <StackPanel Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,8,0,0">
+                <Button Content="Manage browsers" Style="{StaticResource TextButtonTheme}"
+                        Foreground="{DynamicResource OnSurfaceVariantBrush}" Click="OnManageBrowsersClick"/>
+                <Button Content="Cancel" Style="{StaticResource TextButtonTheme}"
+                        Foreground="{DynamicResource OnSurfaceVariantBrush}" Click="OnCancelClick"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

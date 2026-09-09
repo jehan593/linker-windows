@@ -1,0 +1,177 @@
+<UserControl x:Class="Linker.Ui.Browsers.ManageBrowsersView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:repo="clr-namespace:Linker.Data.Repositories"
+             xmlns:local="clr-namespace:Linker.Ui.Browsers">
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type repo:BrowserListItem}">
+            <Border Padding="16,10" BorderThickness="0,0,0,1" BorderBrush="{DynamicResource OutlineVariantBrush}">
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Opacity" Value="1"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Hidden}" Value="True">
+                                <Setter Property="Opacity" Value="0.75"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="0" Width="30" Height="30" CornerRadius="7" ClipToBounds="True" Margin="0,0,12,0">
+                        <Image Source="{Binding Icon}" Width="30" Height="30"/>
+                    </Border>
+
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding DisplayLabel}" FontSize="14">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                                    <Setter Property="TextDecorations" Value="None"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Hidden}" Value="True">
+                                            <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                        <TextBlock Text="{Binding SystemLabel}">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock" BasedOn="{StaticResource bodySmall}">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding DisplayLabel}" Value="{x:Static system:String.Empty}">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2" VerticalAlignment="Center" Margin="0,0,4,0">
+                        <Button Click="OnMoveUpClick" ToolTip="Move up">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource MoveButtonTheme}">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                    <Setter Property="IsEnabled">
+                                        <Setter.Value>
+                                            <MultiBinding Converter="{StaticResource MoveAvailabilityConverter}" ConverterParameter="up">
+                                                <Binding Path="OrderIndex"/>
+                                                <Binding Path="DataContext.Browsers" ElementName="BrowsersList"/>
+                                            </MultiBinding>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Hidden}" Value="True">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                            <TextBlock Text="&#xE70E;" FontFamily="Segoe MDL2 Assets" FontSize="12"
+                                       Foreground="{DynamicResource OnSurfaceVariantBrush}"/>
+                        </Button>
+                        <Button Click="OnMoveDownClick" ToolTip="Move down">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource MoveButtonTheme}">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                    <Setter Property="IsEnabled">
+                                        <Setter.Value>
+                                            <MultiBinding Converter="{StaticResource MoveAvailabilityConverter}" ConverterParameter="down">
+                                                <Binding Path="OrderIndex"/>
+                                                <Binding Path="DataContext.Browsers" ElementName="BrowsersList"/>
+                                            </MultiBinding>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Hidden}" Value="True">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                            <TextBlock Text="&#xE70D;" FontFamily="Segoe MDL2 Assets" FontSize="12"
+                                       Foreground="{DynamicResource OnSurfaceVariantBrush}"/>
+                        </Button>
+                    </StackPanel>
+
+                    <Button Grid.Column="3" Style="{StaticResource IconButtonTheme}" Click="OnEditClick" ToolTip="Edit browser">
+                        <TextBlock Text="&#xE70F;" FontFamily="Segoe MDL2 Assets" FontSize="14"/>
+                    </Button>
+
+                    <CheckBox Grid.Column="4" VerticalAlignment="Center"
+                              Click="OnVisibilityToggled">
+                        <CheckBox.Style>
+                            <Style TargetType="CheckBox" BasedOn="{StaticResource SwitchTheme}">
+                                <Setter Property="ToolTip" Value="Hide from chooser"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Hidden}" Value="True">
+                                        <Setter Property="ToolTip" Value="Show in chooser"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </CheckBox.Style>
+                        <CheckBox.IsChecked>
+                            <Binding Path="Hidden" Converter="{StaticResource InverseBoolConverter}" Mode="OneWay"/>
+                        </CheckBox.IsChecked>
+                    </CheckBox>
+                </Grid>
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type local:HiddenSectionHeader}">
+            <StackPanel>
+                <Border Height="1" Background="{DynamicResource OutlineVariantBrush}" Margin="16,14,16,0"/>
+                <TextBlock Text="Hidden" Style="{StaticResource label}" Margin="16,10,16,0"
+                           Foreground="{DynamicResource OutlineBrush}"/>
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid Background="{DynamicResource BackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" Margin="12,4">
+            <Button Style="{StaticResource IconButtonTheme}" Click="OnAddBrowserClick" ToolTip="Add browser">
+                <TextBlock Text="&#xE710;" FontFamily="Segoe MDL2 Assets" FontSize="16"/>
+            </Button>
+            <Button Style="{StaticResource IconButtonTheme}" Click="OnRefreshClick" ToolTip="Refresh browser list">
+                <TextBlock Text="&#xE72C;" FontFamily="Segoe MDL2 Assets" FontSize="16"/>
+            </Button>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="24">
+            <StackPanel.Style>
+                <Style TargetType="StackPanel">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Browsers.Count}" Value="0">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Style>
+            <TextBlock Text="&#xE774;" FontFamily="Segoe MDL2 Assets" FontSize="32"
+                       Foreground="{DynamicResource OutlineBrush}" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+            <TextBlock Text="No browsers found on this device." Foreground="{DynamicResource OnSurfaceVariantBrush}"/>
+        </StackPanel>
+
+        <ListBox x:Name="BrowsersList" Grid.Row="1"
+                 ItemsSource="{Binding Browsers}"
+                 Background="Transparent" BorderThickness="0"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 ItemContainerStyle="{StaticResource BrowserRowItemTheme}"/>
+    </Grid>
+</UserControl>
