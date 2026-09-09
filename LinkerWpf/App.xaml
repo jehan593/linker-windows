@@ -1,0 +1,27 @@
+<Application x:Class="Linker.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:conv="clr-namespace:Linker.Ui.Components">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Theme/ColorsDark.xaml"/>
+                <ResourceDictionary Source="Theme/Fonts.xaml"/>
+                <ResourceDictionary Source="Theme/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <conv:InverseBoolConverter x:Key="InverseBoolConverter"/>
+            <conv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+            <conv:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter"/>
+            <conv:ZeroCountToVisibilityConverter x:Key="ZeroCountToVisibilityConverter"/>
+            <conv:NonZeroCountToVisibilityConverter x:Key="NonZeroCountToVisibilityConverter"/>
+            <conv:HiddenToStrikeThroughConverter x:Key="HiddenToStrikeThroughConverter"/>
+            <conv:DifferentStringsToVisibilityConverter x:Key="DifferentStringsToVisibilityConverter"/>
+            <conv:EmptyStringToVisibilityConverter x:Key="EmptyStringToVisibilityConverter"/>
+            <conv:InverseEmptyStringToVisibilityConverter x:Key="InverseEmptyStringToVisibilityConverter"/>
+            <conv:UrlToHostConverter x:Key="UrlToHostConverter"/>
+            <conv:EmptyBrowsersVisibilityConverter x:Key="EmptyBrowsersVisibilityConverter"/>
+            <conv:MoveAvailabilityConverter x:Key="MoveAvailabilityConverter"/>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
