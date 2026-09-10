@@ -31,18 +31,7 @@
                     </Border>
 
                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                        <TextBlock Text="{Binding DisplayLabel}" FontSize="14">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
-                                    <Setter Property="TextDecorations" Value="None"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Hidden}" Value="True">
-                                            <Setter Property="TextDecorations" Value="Strikethrough"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
+                        <TextBlock Text="{Binding DisplayLabel}" FontSize="14"/>
                         <TextBlock Text="{Binding SystemLabel}">
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock" BasedOn="{StaticResource bodySmall}">

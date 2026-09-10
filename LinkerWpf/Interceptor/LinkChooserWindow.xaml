@@ -162,12 +162,17 @@
 
             <comp:ToastHostControl Grid.Row="5"/>
 
-            <StackPanel Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,8,0,0">
-                <Button Content="Manage browsers" Style="{StaticResource TextButtonTheme}"
+            <Grid Grid.Row="6" Margin="0,8,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Content="Manage browsers" Style="{StaticResource TextButtonTheme}"
                         Foreground="{DynamicResource OnSurfaceVariantBrush}" Click="OnManageBrowsersClick"/>
-                <Button Content="Cancel" Style="{StaticResource TextButtonTheme}"
+                <Button Grid.Column="2" Content="Cancel" Style="{StaticResource TextButtonTheme}"
                         Foreground="{DynamicResource OnSurfaceVariantBrush}" Click="OnCancelClick"/>
-            </StackPanel>
+            </Grid>
         </Grid>
     </Grid>
 </Window>

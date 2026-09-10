@@ -27,6 +27,7 @@ namespace Linker
             BrowsersView.DataContext = new Ui.Browsers.ManageBrowsersViewModel(container.BrowserPrefsRepository);
             SavedLinksView.DataContext = new Ui.SavedLinks.SavedLinksViewModel(container.SavedLinksRepository);
             DataContext = ViewModel;
+            Loaded += OnWindowLoaded;
 
             _reloadDebounce = new DispatcherTimer(DispatcherPriority.Background)
             {
@@ -47,6 +48,17 @@ namespace Linker
             _dataWatcher.Changed += OnDataFileChanged;
             _dataWatcher.Created += OnDataFileChanged;
             _dataWatcher.EnableRaisingEvents = true;
+        }
+
+        // The window starts minimized so Windows never shows its raw white
+        // surface; restore once the first frame is rendered.
+        private void OnWindowLoaded(object sender, RoutedEventArgs e)
+        {
+            Loaded -= OnWindowLoaded;
+            if (WindowState == WindowState.Minimized)
+            {
+                WindowState = WindowState.Normal;
+            }
         }
 
         private void OnDataFileChanged(object sender, FileSystemEventArgs e)

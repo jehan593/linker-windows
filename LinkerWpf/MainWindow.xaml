@@ -8,6 +8,7 @@
         Title="Linker" Height="640" Width="480" MinHeight="420" MinWidth="360"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         Icon="Assets/app.ico"
+        Background="{DynamicResource BackgroundBrush}"
         Activated="OnWindowActivated">
     <Grid>
         <Grid.RowDefinitions>
@@ -28,7 +29,7 @@
             </Grid>
         </Border>
 
-        <home:DefaultBrowserBanner x:Name="Banner" Grid.Row="1">
+        <home:DefaultBrowserBanner x:Name="Banner" Grid.Row="1" RequestDefaultClicked="OnRequestDefaultClicked">
             <home:DefaultBrowserBanner.Style>
                 <Style TargetType="home:DefaultBrowserBanner">
                     <Setter Property="Visibility" Value="Collapsed"/>
