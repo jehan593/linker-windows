@@ -26,12 +26,10 @@ namespace Linker
             {
                 window = new LinkChooserWindow(url, container);
 
-                // The chooser is a popup, so it can't use the minimize trick.
-                // Present it fully transparent until the first frame is
-                // rendered, so the raw white surface Windows draws before
-                // that frame is never visible. CenterScreen still applies,
-                // and ContentRendered reveals the dark frame once it's ready.
-                window.Opacity = 0;
+                // Same first-frame white flash applies: this popup is an
+                // only window of a fresh process, so start it minimized and
+                // restore in OnWindowLoaded once the dark frame is rendered.
+                window.WindowState = WindowState.Minimized;
             }
             else
             {
@@ -50,11 +48,6 @@ namespace Linker
             }
 
             window.Show();
-
-            if (window is LinkChooserWindow)
-            {
-                window.ContentRendered += (s, e2) => window.Opacity = 1;
-            }
         }
     }
 }

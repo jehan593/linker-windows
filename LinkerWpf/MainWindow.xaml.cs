@@ -57,6 +57,8 @@ namespace Linker
             Loaded -= OnWindowLoaded;
             if (WindowState == WindowState.Minimized)
             {
+                // No minimize/restore swoosh; pop the window in.
+                WindowTransitions.DisableAnimations(this);
                 WindowState = WindowState.Normal;
             }
         }

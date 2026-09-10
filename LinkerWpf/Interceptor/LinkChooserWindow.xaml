@@ -80,22 +80,10 @@
             <TextBlock Grid.Row="3" Text="Open with" Style="{StaticResource label}" Margin="0,0,0,4"/>
 
             <Grid Grid.Row="4" Height="236">
-                <TextBlock Text="Loading browsers..." HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <TextBlock.Style>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="Visibility" Value="Collapsed"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding LoadingBrowsers}" Value="True">
-                                    <Setter Property="Visibility" Value="Visible"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBlock.Style>
-                </TextBlock>
                 <TextBlock Text="No browsers to show. Check Manage Browsers."
                            TextWrapping="Wrap" Margin="0,12">
                     <TextBlock.Style>
-                        <Style TargetType="TextBlock">
+                        <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
                             <Setter Property="Visibility" Value="Collapsed"/>
                             <Style.Triggers>
                                 <MultiDataTrigger>

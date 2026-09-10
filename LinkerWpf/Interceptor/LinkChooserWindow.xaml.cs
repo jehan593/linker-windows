@@ -25,7 +25,29 @@ namespace Linker.Interceptor
 
         private async void OnWindowLoaded(object sender, RoutedEventArgs e)
         {
+            Loaded -= OnWindowLoaded;
+
+            // The window starts minimized so Windows never shows its raw
+            // white surface. SizeToContent means the size is only known now,
+            // so center it manually first, then restore once the browser list
+            // is ready so the popup appears complete.
+            var wa = SystemParameters.WorkArea;
+            var targetWidth = Width;
+            Left = wa.Left + (wa.Width - targetWidth) / 2;
+            Top = wa.Top + (wa.Height - ActualHeight) / 2;
+
             await ViewModel.InitializeAsync();
+
+            // No minimize/restore swoosh; pop the completed window in.
+            WindowTransitions.DisableAnimations(this);
+            WindowState = WindowState.Normal;
+            if (Width != targetWidth)
+            {
+                // Restore can snap the width back to MinWidth, so re-assert it.
+                Width = double.NaN;
+                Width = targetWidth;
+                Left = wa.Left + (wa.Width - ActualWidth) / 2;
+            }
         }
 
         private void OnCopyClick(object sender, RoutedEventArgs e)
