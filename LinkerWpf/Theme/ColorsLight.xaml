@@ -35,7 +35,7 @@
     <SolidColorBrush x:Key="InverseSurfaceBrush" Color="#FF2E3440"/>
     <SolidColorBrush x:Key="InverseOnSurfaceBrush" Color="#FFECEFF4"/>
     <SolidColorBrush x:Key="InversePrimaryBrush" Color="#FF88C0D0"/>
-    <SolidColorBrush x:Key="FilledButtonBackgroundBrush" Color="#FF88C0D0"/>
-    <SolidColorBrush x:Key="FilledButtonForegroundBrush" Color="#FF2E3440"/>
+    <SolidColorBrush x:Key="FilledButtonBackgroundBrush" Color="#FF5E81AC"/>
+    <SolidColorBrush x:Key="FilledButtonForegroundBrush" Color="#FFECEFF4"/>
     <SolidColorBrush x:Key="RowHoverBrush" Color="#FFE5E9F0"/>
 </ResourceDictionary>

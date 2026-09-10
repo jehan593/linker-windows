@@ -8,8 +8,11 @@
             <TextBlock Text="Make Linker your default so every link opens with a chooser first."
                        Foreground="{DynamicResource OnPrimaryContainerBrush}" FontSize="12" TextWrapping="Wrap"
                        Margin="0,4,0,12"/>
-            <Button Content="Set as default browser" Style="{StaticResource FilledButtonTheme}"
-                    HorizontalAlignment="Left" Click="OnRequestDefaultClick"/>
+            <Border BorderBrush="{DynamicResource OnPrimaryContainerBrush}" BorderThickness="1"
+                CornerRadius="9" HorizontalAlignment="Left" Padding="1">
+                <Button Content="Set as default browser" Style="{StaticResource FilledButtonTheme}"
+                        Foreground="White" Click="OnRequestDefaultClick"/>
+            </Border>
         </StackPanel>
     </Border>
 </UserControl>
