@@ -10,6 +10,7 @@ namespace Linker.Ui.Browsers
     public class ManageBrowsersViewModel : ObservableObject
     {
         private readonly BrowserPrefsRepository _browserPrefsRepository;
+        private bool _isMoving;
 
         public ObservableCollection<object> Browsers { get; } = new ObservableCollection<object>();
 
@@ -18,9 +19,9 @@ namespace Linker.Ui.Browsers
             _browserPrefsRepository = browserPrefsRepository;
         }
 
-        public async Task LoadAsync()
+        public async Task LoadAsync(bool freshBrowsers = true)
         {
-            var list = await _browserPrefsRepository.GetManageListAsync();
+            var list = await _browserPrefsRepository.GetManageListAsync(freshBrowsers);
             Browsers.Clear();
             foreach (var item in list.Where(b => !b.Hidden))
             {
@@ -46,14 +47,28 @@ namespace Linker.Ui.Browsers
 
         public async Task MoveBrowserAsync(BrowserListItem browser, int delta)
         {
-            var visible = Browsers.OfType<BrowserListItem>().Where(b => !b.Hidden).ToList();
-            var index = visible.FindIndex(b => b.Id == browser.Id);
-            var targetIndex = index + delta;
-            if (index < 0 || targetIndex < 0 || targetIndex >= visible.Count) return;
+            if (_isMoving) return;
+            _isMoving = true;
+            try
+            {
+                var visible = Browsers.OfType<BrowserListItem>().Where(b => !b.Hidden).ToList();
+                var index = visible.FindIndex(b => b.Id == browser.Id);
+                var targetIndex = index + delta;
+                if (index < 0 || targetIndex < 0 || targetIndex >= visible.Count) return;
 
-            var other = visible[targetIndex];
-            await _browserPrefsRepository.ApplyOrderSwapAsync(browser.Id, other.OrderIndex, other.Id, browser.OrderIndex);
-            await LoadAsync();
+                visible.RemoveAt(index);
+                visible.Insert(targetIndex, browser);
+
+                var hidden = Browsers.OfType<BrowserListItem>().Where(b => b.Hidden).ToList();
+                var orderedIds = visible.Concat(hidden).Select(b => b.Id).ToList();
+
+                await _browserPrefsRepository.ApplyOrderAsync(orderedIds);
+                await LoadAsync(freshBrowsers: false);
+            }
+            finally
+            {
+                _isMoving = false;
+            }
         }
 
         public async Task SaveOverridesAsync(

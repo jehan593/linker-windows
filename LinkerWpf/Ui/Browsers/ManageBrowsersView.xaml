@@ -54,7 +54,7 @@
                                     <Setter Property="IsEnabled">
                                         <Setter.Value>
                                             <MultiBinding Converter="{StaticResource MoveAvailabilityConverter}" ConverterParameter="up">
-                                                <Binding Path="OrderIndex"/>
+                                                <Binding Path="Id"/>
                                                 <Binding Path="DataContext.Browsers" ElementName="BrowsersList"/>
                                             </MultiBinding>
                                         </Setter.Value>
@@ -76,7 +76,7 @@
                                     <Setter Property="IsEnabled">
                                         <Setter.Value>
                                             <MultiBinding Converter="{StaticResource MoveAvailabilityConverter}" ConverterParameter="down">
-                                                <Binding Path="OrderIndex"/>
+                                                <Binding Path="Id"/>
                                                 <Binding Path="DataContext.Browsers" ElementName="BrowsersList"/>
                                             </MultiBinding>
                                         </Setter.Value>
