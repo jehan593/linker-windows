@@ -19,10 +19,10 @@ namespace Linker.Data.Repositories
             _installedBrowsersRepository = installedBrowsersRepository;
         }
 
-        public async Task<List<BrowserListItem>> GetManageListAsync()
+        public async Task<List<BrowserListItem>> GetManageListAsync(bool freshBrowsers = true)
         {
             var prefs = _store.Read(d => d.BrowserPrefs);
-            var browsers = await _installedBrowsersRepository.GetBrowsersAsync(forceRefresh: true);
+            var browsers = await _installedBrowsersRepository.GetBrowsersAsync(forceRefresh: freshBrowsers);
             return Merge(browsers, prefs);
         }
 
@@ -76,7 +76,7 @@ namespace Linker.Data.Repositories
                     icon, pref.Hidden, pref.OrderIndex, isCustom: true));
             }
 
-            items.Sort((a, b) => a.OrderIndex.CompareTo(b.OrderIndex));
+            items = items.OrderBy(a => a.OrderIndex).ToList();
             return items;
         }
 
@@ -130,14 +130,14 @@ namespace Linker.Data.Repositories
             return Task.CompletedTask;
         }
 
-        public Task ApplyOrderSwapAsync(string idA, int orderA, string idB, int orderB)
+        public Task ApplyOrderAsync(IReadOnlyList<string> orderedIds)
         {
             _store.Mutate(data =>
             {
-                var a = FindOrCreatePref(data, idA);
-                var b = FindOrCreatePref(data, idB);
-                a.OrderIndex = orderA;
-                b.OrderIndex = orderB;
+                for (var i = 0; i < orderedIds.Count; i++)
+                {
+                    FindOrCreatePref(data, orderedIds[i]).OrderIndex = i;
+                }
             });
             return Task.CompletedTask;
         }

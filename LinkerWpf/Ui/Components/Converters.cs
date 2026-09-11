@@ -118,7 +118,7 @@ namespace Linker.Ui.Components
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             if (values.Length < 2) return true;
-            if (!(values[0] is int orderIndex) || !(values[1] is System.Collections.IList visible)) return true;
+            if (!(values[0] is string id) || !(values[1] is System.Collections.IList visible)) return true;
 
             var sorted = new List<BrowserListItem>();
             foreach (var item in visible)
@@ -126,7 +126,7 @@ namespace Linker.Ui.Components
                 if (item is BrowserListItem b && !b.Hidden) sorted.Add(b);
             }
             sorted.Sort((a, b) => a.OrderIndex.CompareTo(b.OrderIndex));
-            var index = sorted.FindIndex(b => b.OrderIndex == orderIndex);
+            var index = sorted.FindIndex(b => b.Id == id);
             if (index < 0) return true;
 
             var direction = parameter as string;
