@@ -19,12 +19,12 @@
         </Grid.RowDefinitions>
 
         <!-- Top app bar -->
-        <Border Grid.Row="0" Background="{DynamicResource SurfaceContainerBrush}" Padding="16,12"
+        <Border Grid.Row="0" Background="{DynamicResource SurfaceBrush}" Padding="16,12"
                 BorderThickness="0,0,0,1" BorderBrush="{DynamicResource OutlineVariantBrush}">
             <Grid>
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <Image Source="Assets/icon-256.png" Width="22" Height="22" Margin="0,0,10,0"/>
-                    <TextBlock Text="Linker" Style="{StaticResource title}" FontSize="18" VerticalAlignment="Center"/>
+                    <Image Source="Assets/icon-256.png" Width="20" Height="20" Margin="0,0,10,0"/>
+                    <TextBlock Text="Linker" Style="{StaticResource title}" FontSize="15" VerticalAlignment="Center"/>
                 </StackPanel>
             </Grid>
         </Border>
@@ -42,18 +42,19 @@
             </home:DefaultBrowserBanner.Style>
         </home:DefaultBrowserBanner>
 
-        <Border Grid.Row="2" Background="{DynamicResource SurfaceBrush}"
-                BorderThickness="0,0,0,1" BorderBrush="{DynamicResource OutlineVariantBrush}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <ToggleButton x:Name="BrowsersTab" Grid.Column="0" Content="Browsers" Click="OnBrowsersTabClick"
-                              Style="{StaticResource TabButtonTheme}" IsChecked="True" Height="44"/>
-                <ToggleButton x:Name="SavedLinksTab" Grid.Column="1" Content="Saved Links" Click="OnSavedLinksTabClick"
-                              Style="{StaticResource TabButtonTheme}" Height="44"/>
-            </Grid>
+        <Border Grid.Row="2" Background="{DynamicResource BackgroundBrush}" Padding="16,8,16,4">
+            <Border Background="{DynamicResource SurfaceBrush}" CornerRadius="12" Padding="3">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <ToggleButton x:Name="BrowsersTab" Grid.Column="0" Content="Browsers" Click="OnBrowsersTabClick"
+                                  Style="{StaticResource TabButtonTheme}" IsChecked="True" Height="34"/>
+                    <ToggleButton x:Name="SavedLinksTab" Grid.Column="1" Content="Saved Links" Click="OnSavedLinksTabClick"
+                                  Style="{StaticResource TabButtonTheme}" Height="34"/>
+                </Grid>
+            </Border>
         </Border>
 
         <Grid Grid.Row="3" Background="{DynamicResource BackgroundBrush}">

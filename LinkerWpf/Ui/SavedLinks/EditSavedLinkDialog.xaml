@@ -3,29 +3,29 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Edit link" Width="420" SizeToContent="Height"
         WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
-        Background="{DynamicResource SurfaceContainerHighBrush}">
-    <Grid Margin="20">
+        Background="{DynamicResource SurfaceBrush}">
+    <Grid Margin="16">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Text="Edit link" Style="{StaticResource title}" FontSize="18" Margin="0,0,0,16"/>
+        <TextBlock Grid.Row="0" Text="Edit link" Style="{StaticResource title}" FontSize="15" Margin="0,0,0,16"/>
 
         <Grid Grid.Row="1" Margin="0,0,0,16">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <TextBlock Text="Link" Style="{StaticResource bodySmall}" Margin="0,0,0,4"/>
+            <TextBlock Text="Link" Style="{StaticResource label}" Margin="0,0,0,4"/>
             <TextBox Grid.Row="1" x:Name="UrlTextBox" Style="{StaticResource outlined}" TextWrapping="Wrap" AcceptsReturn="True"
-                     MinWidth="200" VerticalScrollBarVisibility="Auto" MinLines="5" MaxLines="5"/>
+                     MinWidth="200" VerticalScrollBarVisibility="Auto" MinLines="4" MaxLines="4"/>
         </Grid>
 
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
-            <Button Content="Cancel" Style="{StaticResource TextButtonTheme}"
-                    Foreground="{DynamicResource OnSurfaceVariantBrush}" Click="OnCancelClick"/>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
+            <Button Content="Cancel" Style="{StaticResource PlainTextButtonTheme}"
+                    Margin="0,0,8,0" Click="OnCancelClick"/>
             <Button Content="Save" Style="{StaticResource FilledButtonTheme}"
                     Click="OnSaveClick" IsDefault="True"/>
         </StackPanel>

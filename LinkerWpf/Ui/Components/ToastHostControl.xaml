@@ -2,12 +2,14 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              IsHitTestVisible="False">
-    <Border x:Name="Bubble" Background="{DynamicResource InverseSurfaceBrush}" CornerRadius="6"
-            Padding="12,6" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,6"
+    <Border x:Name="Bubble" Background="{DynamicResource SurfaceVariantBrush}" CornerRadius="8"
+            BorderBrush="{DynamicResource OutlineBrush}" BorderThickness="1"
+            Padding="14,7" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,10"
             Opacity="0" Visibility="Collapsed">
         <Border.Effect>
-            <DropShadowEffect BlurRadius="8" ShadowDepth="2" Color="#000000" Opacity="0.3"/>
+            <DropShadowEffect BlurRadius="6" ShadowDepth="2" Color="#000000" Opacity="0.25"/>
         </Border.Effect>
-        <TextBlock x:Name="MessageText" Foreground="{DynamicResource InverseOnSurfaceBrush}" FontSize="11"/>
+        <TextBlock x:Name="MessageText" FontFamily="{DynamicResource MartianMono}"
+                   Foreground="{DynamicResource OnSurfaceBrush}" FontSize="12"/>
     </Border>
 </UserControl>

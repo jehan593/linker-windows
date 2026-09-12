@@ -3,15 +3,15 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Edit browser" Height="560" Width="460" MinHeight="420" MinWidth="380"
         WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
-        Background="{DynamicResource SurfaceContainerHighBrush}">
-    <Grid Margin="20">
+        Background="{DynamicResource SurfaceBrush}">
+    <Grid Margin="16">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock x:Name="TitleText" Grid.Row="0" Text="Edit browser" Style="{StaticResource title}" FontSize="18" Margin="0,0,0,16"/>
+        <TextBlock x:Name="TitleText" Grid.Row="0" Text="Edit browser" Style="{StaticResource title}" FontSize="15" Margin="0,0,0,16"/>
 
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="0,0,0,12">
             <StackPanel>
@@ -20,16 +20,16 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Border Grid.Column="0" Width="48" Height="48" CornerRadius="8"
-                            Background="{DynamicResource SurfaceContainerBrush}" Margin="0,0,12,0">
-                        <Image x:Name="PreviewIconImage" Width="32" Height="32"/>
+                    <Border Grid.Column="0" Width="44" Height="44" CornerRadius="8"
+                            Background="{DynamicResource SurfaceVariantBrush}" Margin="0,0,12,0">
+                        <Image x:Name="PreviewIconImage" Width="30" Height="30"/>
                     </Border>
                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
                         <StackPanel Orientation="Horizontal">
-                            <Button Content="Change icon..." Style="{StaticResource TextButtonTheme}"
-                                    Foreground="{DynamicResource PrimaryBrush}" Padding="8,4" Click="OnBrowseIconClick"/>
-                            <Button Content="Use default" Style="{StaticResource TextButtonTheme}"
-                                    Foreground="{DynamicResource OnSurfaceVariantBrush}" Padding="8,4" Click="OnClearIconClick"/>
+                            <Button Content="Change icon..." Style="{StaticResource OutlinedButtonTheme}"
+                                    Padding="8,4" Click="OnBrowseIconClick" Margin="0,0,6,0"/>
+                            <Button Content="Use default" Style="{StaticResource OutlinedButtonTheme}"
+                                    Padding="8,4" Click="OnClearIconClick"/>
                         </StackPanel>
                         <TextBlock x:Name="IconPathHintText" Style="{StaticResource bodySmall}" FontSize="11"
                                    TextWrapping="Wrap" Margin="0,4,0,0"/>
@@ -37,13 +37,13 @@
                 </Grid>
 
                 <StackPanel Margin="0,0,0,16">
-                    <TextBlock Text="Display name" Style="{StaticResource bodySmall}" Margin="0,0,0,4"/>
+                    <TextBlock Text="Display name" Style="{StaticResource label}" Margin="0,0,0,4"/>
                     <TextBox x:Name="LabelTextBox" Style="{StaticResource outlined}"/>
                 </StackPanel>
 
                 <StackPanel Margin="0,0,0,16">
-                    <TextBlock Text="Executable path" Style="{StaticResource bodySmall}" Margin="0,0,0,4"/>
-<Grid>
+                    <TextBlock Text="Executable path" Style="{StaticResource label}" Margin="0,0,0,4"/>
+                    <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="Auto"/>
@@ -52,14 +52,14 @@
                                  FontSize="12" TextWrapping="Wrap" MinLines="3" MaxLines="3" AcceptsReturn="True"
                                  VerticalScrollBarVisibility="Auto"/>
                         <Button Grid.Row="1" Grid.Column="0" Margin="0,6,0,0"
-                                Content="Browse..." Style="{StaticResource TextButtonTheme}"
-                                Foreground="{DynamicResource PrimaryBrush}" HorizontalAlignment="Left"
+                                Content="Browse..." Style="{StaticResource OutlinedButtonTheme}"
+                                HorizontalAlignment="Left" Padding="10,4"
                                 Click="OnBrowseExecutableClick"/>
                     </Grid>
                 </StackPanel>
 
                 <StackPanel>
-                    <TextBlock Text="Extra launch arguments (optional)" Style="{StaticResource bodySmall}" Margin="0,0,0,4"/>
+                    <TextBlock Text="Extra launch arguments (optional)" Style="{StaticResource label}" Margin="0,0,0,4"/>
                     <TextBox x:Name="ArgumentsTextBox" Style="{StaticResource outlined}" FontSize="12"
                              TextWrapping="Wrap" MinLines="3" MaxLines="3" AcceptsReturn="True"
                              VerticalScrollBarVisibility="Auto"/>
@@ -69,21 +69,25 @@
             </StackPanel>
         </ScrollViewer>
 
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="2" Margin="0,8,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <Button x:Name="ResetButton" Grid.Column="0" Content="Reset to defaults" Style="{StaticResource TextButtonTheme}"
-                    Foreground="{DynamicResource ErrorBrush}" HorizontalAlignment="Left" Click="OnResetClick"/>
-            <Button x:Name="DeleteButton" Grid.Column="0" Content="Delete" Style="{StaticResource TextButtonTheme}"
-                    Foreground="{DynamicResource ErrorBrush}" HorizontalAlignment="Left" Click="OnDeleteClick"
-                    Visibility="Collapsed"/>
+            <Button x:Name="ResetButton" Grid.Column="0" Style="{StaticResource PlainTextButtonTheme}"
+                    HorizontalAlignment="Left" Click="OnResetClick">
+                <TextBlock Text="Reset to defaults" Foreground="{DynamicResource WarningBrush}"/>
+            </Button>
+            <Button x:Name="DeleteButton" Grid.Column="0" Style="{StaticResource PlainTextButtonTheme}"
+                    HorizontalAlignment="Left" Click="OnDeleteClick"
+                    Visibility="Collapsed">
+                <TextBlock Text="Delete" Foreground="{DynamicResource ErrorBrush}"/>
+            </Button>
 
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="Cancel" Style="{StaticResource TextButtonTheme}"
-                        Foreground="{DynamicResource OnSurfaceVariantBrush}" Click="OnCancelClick"/>
+                <Button Content="Cancel" Style="{StaticResource PlainTextButtonTheme}"
+                        Margin="0,0,8,0" Click="OnCancelClick"/>
                 <Button x:Name="SaveButton" Content="Save" Style="{StaticResource FilledButtonTheme}"
                         Click="OnSaveClick" IsDefault="True"/>
             </StackPanel>
