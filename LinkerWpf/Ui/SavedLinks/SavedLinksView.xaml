@@ -5,42 +5,40 @@
              xmlns:local="clr-namespace:Linker.Ui.SavedLinks">
     <UserControl.Resources>
         <DataTemplate x:Key="DayHeaderTemplate" DataType="{x:Type local:DayHeaderEntry}">
-            <TextBlock Text="{Binding Label}" Style="{StaticResource label}"
-                       Background="{DynamicResource SurfaceBrush}"
-                       Padding="16,6"/>
+            <TextBlock Text="{Binding Label}" Style="{StaticResource label}" Margin="20,12,16,4"/>
         </DataTemplate>
 
         <DataTemplate x:Key="SavedLinkRowTemplate" DataType="{x:Type local:SavedLinkRowEntry}">
-            <Border Padding="16,10" BorderThickness="0,0,0,1" BorderBrush="{DynamicResource OutlineVariantBrush}"
-                    Background="Transparent">
+            <Border Margin="16,4,16,4" Padding="14,10" CornerRadius="12"
+                    Background="{DynamicResource SurfaceBrush}">
                 <Border.Style>
                     <Style TargetType="Border">
                         <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="{DynamicResource SurfaceContainerBrush}"/>
+                                <Setter Property="Background" Value="{DynamicResource RowHoverBrush}"/>
                             </Trigger>
                         </Style.Triggers>
                     </Style>
                 </Border.Style>
                 <StackPanel>
                     <comp:HighlightedTextBlock Text="{Binding Link.Url}" Query="{Binding SearchQuery}"
-                                                FontFamily="{DynamicResource MartianMono}"
+                                                FontFamily="{DynamicResource MartianMonoMedium}"
                                                 Foreground="{DynamicResource PrimaryBrush}" FontSize="13"
                                                 TextWrapping="Wrap" Cursor="Hand" ToolTip="Open link"
                                                 MouseLeftButtonUp="OnLinkClick"/>
-                    <TextBlock Text="{Binding FormattedTime}" Style="{StaticResource bodySmall}"/>
+                    <TextBlock Text="{Binding FormattedTime}" Style="{StaticResource bodySmall}" FontSize="11" Margin="0,4,0,0"/>
 
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,6,0,0">
-                        <Button Style="{StaticResource IconButtonTheme}" Click="OnEditClick" ToolTip="Edit">
-                            <TextBlock Text="&#xE70F;" FontFamily="Segoe MDL2 Assets" FontSize="14"
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,4,0,0">
+                        <Button Style="{StaticResource IconButtonTheme}" Click="OnEditClick" ToolTip="Edit link" Margin="2,0">
+                            <TextBlock Text="&#xE70F;" FontFamily="Segoe MDL2 Assets" FontSize="13"
                                        Foreground="{DynamicResource OnSurfaceVariantBrush}"/>
                         </Button>
-                        <Button Style="{StaticResource IconButtonTheme}" Click="OnCopyClick" ToolTip="Copy">
-                            <TextBlock Text="&#xE8C8;" FontFamily="Segoe MDL2 Assets" FontSize="14"
+                        <Button Style="{StaticResource IconButtonTheme}" Click="OnCopyClick" ToolTip="Copy link" Margin="2,0">
+                            <TextBlock Text="&#xE8C8;" FontFamily="Segoe MDL2 Assets" FontSize="13"
                                        Foreground="{DynamicResource OnSurfaceVariantBrush}"/>
                         </Button>
-                        <Button Style="{StaticResource IconButtonTheme}" Click="OnDeleteClick" ToolTip="Delete">
-                            <TextBlock Text="&#xE74D;" FontFamily="Segoe MDL2 Assets" FontSize="14"
+                        <Button Style="{StaticResource IconButtonTheme}" Click="OnDeleteClick" ToolTip="Delete link" Margin="2,0">
+                            <TextBlock Text="&#xE74D;" FontFamily="Segoe MDL2 Assets" FontSize="13"
                                        Foreground="{DynamicResource ErrorBrush}"/>
                         </Button>
                     </StackPanel>
@@ -55,18 +53,18 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" Margin="16,8">
+        <Grid Grid.Row="0" Margin="16,10,16,6">
             <TextBox x:Name="SearchBox" Style="{StaticResource outlined}"
                      Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
-                     Padding="30,8,30,8"/>
-            <TextBlock Text="&#xE721;" FontFamily="Segoe MDL2 Assets" FontSize="14" IsHitTestVisible="False"
+                     Padding="32,7,30,7"/>
+            <TextBlock Text="&#xE721;" FontFamily="Segoe MDL2 Assets" FontSize="13" IsHitTestVisible="False"
                        Foreground="{DynamicResource OnSurfaceVariantBrush}"
-                       HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8,0,0,0"/>
-            <TextBlock Text="Search saved links" FontFamily="{DynamicResource MartianMono}" FontSize="13"
+                       HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0"/>
+            <TextBlock Text="Search saved links" FontFamily="{DynamicResource MartianMono}" FontSize="12"
                        Foreground="{DynamicResource OnSurfaceVariantBrush}"
-                       HorizontalAlignment="Left" VerticalAlignment="Center" Margin="30,0,0,0" IsHitTestVisible="False"
+                       HorizontalAlignment="Left" VerticalAlignment="Center" Margin="32,0,0,0" IsHitTestVisible="False"
                        Visibility="{Binding SearchText, Converter={StaticResource InverseEmptyStringToVisibilityConverter}}"/>
-            <Button HorizontalAlignment="Right" Width="30" Height="30"
+            <Button HorizontalAlignment="Right" VerticalAlignment="Center" Width="28" Height="28" Margin="0,0,3,0"
                     Click="OnClearSearchClick"
                     Visibility="{Binding SearchText, Converter={StaticResource EmptyStringToVisibilityConverter}}">
                 <Button.Style>
@@ -74,7 +72,7 @@
                         <Setter Property="Visibility" Value="Collapsed"/>
                     </Style>
                 </Button.Style>
-                <TextBlock Text="&#xE711;" FontFamily="Segoe MDL2 Assets" FontSize="12"/>
+                <TextBlock Text="&#xE711;" FontFamily="Segoe MDL2 Assets" FontSize="11"/>
             </Button>
         </Grid>
 
@@ -89,9 +87,10 @@
                     </Style.Triggers>
                 </Style>
             </StackPanel.Style>
-            <TextBlock Text="&#xE735;" FontFamily="Segoe MDL2 Assets" FontSize="32"
+            <TextBlock Text="&#xE735;" FontFamily="Segoe MDL2 Assets" FontSize="28"
                        Foreground="{DynamicResource OutlineBrush}" HorizontalAlignment="Center" Margin="0,0,0,8"/>
             <TextBlock Text="No saved links yet — use the bookmark icon in the chooser to save one."
+                       Style="{StaticResource bodySmall}"
                        Foreground="{DynamicResource OnSurfaceVariantBrush}" TextWrapping="Wrap" TextAlignment="Center" MaxWidth="260"/>
         </StackPanel>
 
@@ -106,39 +105,38 @@
                     <ContentControl Content="{Binding}">
                         <ContentControl.Resources>
                             <DataTemplate DataType="{x:Type local:DayHeaderEntry}">
-                                <TextBlock Text="{Binding Label}" Style="{StaticResource label}"
-                                           Background="{DynamicResource SurfaceBrush}" Padding="16,6"/>
+                                <TextBlock Text="{Binding Label}" Style="{StaticResource label}" Margin="20,12,16,4"/>
                             </DataTemplate>
                             <DataTemplate DataType="{x:Type local:SavedLinkRowEntry}">
-                                <Border Padding="16,10" BorderThickness="0,0,0,1"
-                                        BorderBrush="{DynamicResource OutlineVariantBrush}" Background="Transparent">
+                                <Border Margin="16,4,16,4" Padding="14,10" CornerRadius="12"
+                                        Background="{DynamicResource SurfaceBrush}">
                                     <Border.Style>
                                         <Style TargetType="Border">
                                             <Style.Triggers>
                                                 <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter Property="Background" Value="{DynamicResource SurfaceContainerBrush}"/>
+                                                    <Setter Property="Background" Value="{DynamicResource RowHoverBrush}"/>
                                                 </Trigger>
                                             </Style.Triggers>
                                         </Style>
                                     </Border.Style>
                                     <StackPanel>
                                         <comp:HighlightedTextBlock Text="{Binding Link.Url}" Query="{Binding SearchQuery}"
-                                                                    FontFamily="{DynamicResource MartianMono}"
+                                                                    FontFamily="{DynamicResource MartianMonoMedium}"
                                                                     Foreground="{DynamicResource PrimaryBrush}" FontSize="13"
                                                                     TextWrapping="Wrap" Cursor="Hand" ToolTip="Open link"
                                                                     MouseLeftButtonUp="OnLinkClick"/>
-                                        <TextBlock Text="{Binding FormattedTime}" Style="{StaticResource bodySmall}"/>
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,6,0,0">
-                                            <Button Style="{StaticResource IconButtonTheme}" Click="OnEditClick" ToolTip="Edit">
-                                                <TextBlock Text="&#xE70F;" FontFamily="Segoe MDL2 Assets" FontSize="14"
+                                        <TextBlock Text="{Binding FormattedTime}" Style="{StaticResource bodySmall}" FontSize="11" Margin="0,4,0,0"/>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,4,0,0">
+                                            <Button Style="{StaticResource IconButtonTheme}" Click="OnEditClick" ToolTip="Edit link" Margin="2,0">
+                                                <TextBlock Text="&#xE70F;" FontFamily="Segoe MDL2 Assets" FontSize="13"
                                                            Foreground="{DynamicResource OnSurfaceVariantBrush}"/>
                                             </Button>
-                                            <Button Style="{StaticResource IconButtonTheme}" Click="OnCopyClick" ToolTip="Copy">
-                                                <TextBlock Text="&#xE8C8;" FontFamily="Segoe MDL2 Assets" FontSize="14"
+                                            <Button Style="{StaticResource IconButtonTheme}" Click="OnCopyClick" ToolTip="Copy link" Margin="2,0">
+                                                <TextBlock Text="&#xE8C8;" FontFamily="Segoe MDL2 Assets" FontSize="13"
                                                            Foreground="{DynamicResource OnSurfaceVariantBrush}"/>
                                             </Button>
-                                            <Button Style="{StaticResource IconButtonTheme}" Click="OnDeleteClick" ToolTip="Delete">
-                                                <TextBlock Text="&#xE74D;" FontFamily="Segoe MDL2 Assets" FontSize="14"
+                                            <Button Style="{StaticResource IconButtonTheme}" Click="OnDeleteClick" ToolTip="Delete link" Margin="2,0">
+                                                <TextBlock Text="&#xE74D;" FontFamily="Segoe MDL2 Assets" FontSize="13"
                                                            Foreground="{DynamicResource ErrorBrush}"/>
                                             </Button>
                                         </StackPanel>

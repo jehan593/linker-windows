@@ -4,7 +4,7 @@
         xmlns:comp="clr-namespace:Linker.Ui.Components"
         Title="Linker" Width="440" MinWidth="380" SizeToContent="Height" MaxHeight="700"
         WindowStartupLocation="CenterScreen" Topmost="True" ShowInTaskbar="False" ResizeMode="NoResize"
-        Background="{DynamicResource SurfaceContainerHighBrush}"
+        Background="{DynamicResource BackgroundBrush}"
         Icon="/Assets/app.ico"
         Loaded="OnWindowLoaded">
     <Grid>
@@ -26,20 +26,21 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Text="&#xE774;" FontFamily="Segoe MDL2 Assets" FontSize="16"
                            Foreground="{DynamicResource PrimaryBrush}" VerticalAlignment="Center" Margin="0,0,8,0"/>
                 <TextBlock Grid.Column="1" Text="{Binding EditableUrl, Converter={StaticResource UrlToHostConverter}}"
-                           Style="{StaticResource title}" FontSize="15" VerticalAlignment="Center"
+                           Style="{StaticResource title}" FontSize="14" VerticalAlignment="Center"
                            TextTrimming="CharacterEllipsis"/>
 
-                <Button Grid.Column="2" Style="{StaticResource IconButtonTheme}" Click="OnCopyClick" ToolTip="Copy link">
-                    <TextBlock Text="&#xE8C8;" FontFamily="Segoe MDL2 Assets" FontSize="15"/>
+                <Button Grid.Column="2" Style="{StaticResource IconButtonTheme}" Click="OnCopyClick" ToolTip="Copy link"
+                        Margin="4,0,0,0">
+                    <TextBlock Text="&#xE8C8;" FontFamily="Segoe MDL2 Assets" FontSize="14"/>
                 </Button>
-                <Button x:Name="SaveButton" Grid.Column="3" Style="{StaticResource IconButtonTheme}" Click="OnSaveClick" ToolTip="Save link">
+                <Button x:Name="SaveButton" Grid.Column="3" Style="{StaticResource IconButtonTheme}" Click="OnSaveClick" ToolTip="Save link"
+                        Margin="4,0,0,0">
                     <Grid>
-                        <TextBlock Text="&#xE734;" FontFamily="Segoe MDL2 Assets" FontSize="15"
+                        <TextBlock Text="&#xE734;" FontFamily="Segoe MDL2 Assets" FontSize="14"
                                    Foreground="{DynamicResource PrimaryBrush}">
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
@@ -52,8 +53,8 @@
                                 </Style>
                             </TextBlock.Style>
                         </TextBlock>
-                        <TextBlock Text="&#xE735;" FontFamily="Segoe MDL2 Assets" FontSize="15"
-                           Foreground="{DynamicResource OnSurfaceVariantBrush}">
+                        <TextBlock Text="&#xE735;" FontFamily="Segoe MDL2 Assets" FontSize="14"
+                                   Foreground="{DynamicResource OnSurfaceVariantBrush}">
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="Visibility" Value="Visible"/>
@@ -71,19 +72,19 @@
 
             <!-- URL text box -->
             <TextBox Grid.Row="1" x:Name="UrlTextBox" Style="{StaticResource outlined}"
-                 Text="{Binding EditableUrl, UpdateSourceTrigger=PropertyChanged}"
-                 TextWrapping="Wrap" AcceptsReturn="True" MinLines="5" MaxLines="5"
-                 MinWidth="200" FontSize="12" VerticalScrollBarVisibility="Auto" Margin="0,0,0,12"/>
+                     Text="{Binding EditableUrl, UpdateSourceTrigger=PropertyChanged}"
+                     TextWrapping="Wrap" AcceptsReturn="True" MinLines="4" MaxLines="4"
+                     MinWidth="200" FontSize="12" VerticalScrollBarVisibility="Auto" Margin="0,0,0,12"/>
 
             <Border Grid.Row="2" Height="1" Background="{DynamicResource OutlineVariantBrush}" Margin="0,0,0,12"/>
 
-            <TextBlock Grid.Row="3" Text="Open with" Style="{StaticResource label}" Margin="0,0,0,4"/>
+            <TextBlock Grid.Row="3" Text="Open with" Style="{StaticResource label}" Margin="0,0,0,8"/>
 
-            <Grid Grid.Row="4" Height="236">
+            <Grid Grid.Row="4" Height="265">
                 <TextBlock Text="No browsers to show. Check Manage Browsers."
                            TextWrapping="Wrap" Margin="0,12">
                     <TextBlock.Style>
-                        <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                        <Style TargetType="TextBlock" BasedOn="{StaticResource bodySmall}">
                             <Setter Property="Visibility" Value="Collapsed"/>
                             <Style.Triggers>
                                 <MultiDataTrigger>
@@ -98,7 +99,8 @@
                     </TextBlock.Style>
                 </TextBlock>
                 <ListBox ItemsSource="{Binding Browsers}" Background="Transparent" BorderThickness="0"
-                         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         ScrollViewer.VerticalScrollBarVisibility="Auto">
                     <ListBox.Style>
                         <Style TargetType="ListBox">
                             <Setter Property="Visibility" Value="Visible"/>
@@ -112,12 +114,13 @@
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
                             <Setter Property="Padding" Value="0"/>
-                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="Margin" Value="0,3"/>
+                            <Setter Property="Background" Value="{DynamicResource SurfaceBrush}"/>
                             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="ListBoxItem">
-                                        <Border x:Name="rowBg" Background="{TemplateBinding Background}" CornerRadius="8">
+                                        <Border x:Name="rowBg" Background="{TemplateBinding Background}" CornerRadius="12">
                                             <ContentPresenter Content="{TemplateBinding Content}"
                                                               ContentTemplate="{TemplateBinding ContentTemplate}"
                                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
@@ -140,8 +143,12 @@
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <Image Grid.Column="0" Source="{Binding Icon}" Width="28" Height="28" Margin="0,0,12,0"/>
-                                <TextBlock Grid.Column="1" Text="{Binding DisplayLabel}" VerticalAlignment="Center" FontSize="13"/>
+                                <Border Grid.Column="0" CornerRadius="8" ClipToBounds="True" Margin="0,0,12,0">
+                                    <Image Source="{Binding Icon}" Width="28" Height="28"/>
+                                </Border>
+                                <TextBlock Grid.Column="1" Text="{Binding DisplayLabel}"
+                                           FontFamily="{DynamicResource MartianMonoMedium}"
+                                           VerticalAlignment="Center" FontSize="13"/>
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -156,10 +163,10 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Content="Manage browsers" Style="{StaticResource TextButtonTheme}"
-                        Foreground="{DynamicResource OnSurfaceVariantBrush}" Click="OnManageBrowsersClick"/>
-                <Button Grid.Column="2" Content="Cancel" Style="{StaticResource TextButtonTheme}"
-                        Foreground="{DynamicResource OnSurfaceVariantBrush}" Click="OnCancelClick"/>
+                <Button Grid.Column="0" Content="Manage browsers" Style="{StaticResource OutlinedButtonTheme}"
+                        Click="OnManageBrowsersClick"/>
+                <Button Grid.Column="2" Content="Cancel" Style="{StaticResource PlainTextButtonTheme}"
+                        Click="OnCancelClick"/>
             </Grid>
         </Grid>
     </Grid>

@@ -1,41 +1,78 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <SolidColorBrush x:Key="PrimaryBrush" Color="#FF5E81AC"/>
-    <SolidColorBrush x:Key="OnPrimaryBrush" Color="#FFECEFF4"/>
-    <SolidColorBrush x:Key="PrimaryContainerBrush" Color="#FF88C0D0"/>
+    <!-- Canonical Nord Brushes -->
+    <SolidColorBrush x:Key="Nord0Brush" Color="#FF2E3440"/>
+    <SolidColorBrush x:Key="Nord1Brush" Color="#FF3B4252"/>
+    <SolidColorBrush x:Key="Nord2Brush" Color="#FF434C5E"/>
+    <SolidColorBrush x:Key="Nord3Brush" Color="#FF4C566A"/>
+    <SolidColorBrush x:Key="Nord4Brush" Color="#FFD8DEE9"/>
+    <SolidColorBrush x:Key="Nord5Brush" Color="#FFE5E9F0"/>
+    <SolidColorBrush x:Key="Nord6Brush" Color="#FFECEFF4"/>
+    <SolidColorBrush x:Key="Nord7Brush" Color="#FF8FBCBB"/>
+    <SolidColorBrush x:Key="Nord8Brush" Color="#FF88C0D0"/>
+    <SolidColorBrush x:Key="Nord9Brush" Color="#FF81A1C1"/>
+    <SolidColorBrush x:Key="Nord10Brush" Color="#FF5E81AC"/>
+    <SolidColorBrush x:Key="Nord11Brush" Color="#FFBF616A"/>
+    <SolidColorBrush x:Key="Nord12Brush" Color="#FFD08770"/>
+    <SolidColorBrush x:Key="Nord13Brush" Color="#FFEBCB8B"/>
+    <SolidColorBrush x:Key="Nord14Brush" Color="#FFA3BE8C"/>
+    <SolidColorBrush x:Key="Nord15Brush" Color="#FFB48EAD"/>
+
+    <!-- Theme Role Mappings (Light Mode) -->
+    <!-- Primary interactive color: nord9 (#81A1C1) in both dark and light modes -->
+    <SolidColorBrush x:Key="PrimaryBrush" Color="#FF81A1C1"/>
+    <SolidColorBrush x:Key="OnPrimaryBrush" Color="#FF2E3440"/>
+    <SolidColorBrush x:Key="PrimaryContainerBrush" Color="#FFE5E9F0"/>
     <SolidColorBrush x:Key="OnPrimaryContainerBrush" Color="#FF2E3440"/>
+
+    <!-- Secondary & Tertiary accents -->
     <SolidColorBrush x:Key="SecondaryBrush" Color="#FF8FBCBB"/>
     <SolidColorBrush x:Key="OnSecondaryBrush" Color="#FF2E3440"/>
     <SolidColorBrush x:Key="SecondaryContainerBrush" Color="#FFE5E9F0"/>
     <SolidColorBrush x:Key="OnSecondaryContainerBrush" Color="#FF2E3440"/>
-    <SolidColorBrush x:Key="TertiaryBrush" Color="#FF81A1C1"/>
-    <SolidColorBrush x:Key="OnTertiaryBrush" Color="#FFECEFF4"/>
+    <SolidColorBrush x:Key="TertiaryBrush" Color="#FF88C0D0"/>
+    <SolidColorBrush x:Key="OnTertiaryBrush" Color="#FF2E3440"/>
     <SolidColorBrush x:Key="TertiaryContainerBrush" Color="#FFE5E9F0"/>
     <SolidColorBrush x:Key="OnTertiaryContainerBrush" Color="#FF2E3440"/>
+
+    <!-- Surfaces: page bg nord6, main surface nord5, nested surface nord4 -->
     <SolidColorBrush x:Key="BackgroundBrush" Color="#FFECEFF4"/>
     <SolidColorBrush x:Key="OnBackgroundBrush" Color="#FF2E3440"/>
     <SolidColorBrush x:Key="SurfaceBrush" Color="#FFE5E9F0"/>
-    <SolidColorBrush x:Key="OnSurfaceBrush" Color="#FF3B4252"/>
+    <SolidColorBrush x:Key="OnSurfaceBrush" Color="#FF2E3440"/>
     <SolidColorBrush x:Key="SurfaceVariantBrush" Color="#FFD8DEE9"/>
-    <SolidColorBrush x:Key="OnSurfaceVariantBrush" Color="#FF5C6472"/>
-    <SolidColorBrush x:Key="SurfaceTintBrush" Color="#FF5E81AC"/>
+    <SolidColorBrush x:Key="OnSurfaceVariantBrush" Color="#FF4C566A"/>
+    <SolidColorBrush x:Key="SurfaceTintBrush" Color="#FF81A1C1"/>
     <SolidColorBrush x:Key="SurfaceDimBrush" Color="#FFD8DEE9"/>
     <SolidColorBrush x:Key="SurfaceBrightBrush" Color="#FFECEFF4"/>
     <SolidColorBrush x:Key="SurfaceContainerLowestBrush" Color="#FFECEFF4"/>
     <SolidColorBrush x:Key="SurfaceContainerLowBrush" Color="#FFE5E9F0"/>
     <SolidColorBrush x:Key="SurfaceContainerBrush" Color="#FFD8DEE9"/>
-    <SolidColorBrush x:Key="SurfaceContainerHighBrush" Color="#FFD8DEE9"/>
+    <SolidColorBrush x:Key="SurfaceContainerHighBrush" Color="#FFE5E9F0"/>
     <SolidColorBrush x:Key="SurfaceContainerHighestBrush" Color="#FFD8DEE9"/>
+
+    <!-- Error & destructive: nord11 -->
     <SolidColorBrush x:Key="ErrorBrush" Color="#FFBF616A"/>
     <SolidColorBrush x:Key="OnErrorBrush" Color="#FFECEFF4"/>
     <SolidColorBrush x:Key="ErrorContainerBrush" Color="#FFBF616A"/>
     <SolidColorBrush x:Key="OnErrorContainerBrush" Color="#FFECEFF4"/>
+
+    <!-- Warning: nord12 / amber -->
+    <SolidColorBrush x:Key="WarningBrush" Color="#FFD08770"/>
+    <SolidColorBrush x:Key="OnWarningBrush" Color="#FF2E3440"/>
+
+    <!-- Borders & outlines: nord3 quiet border, nord4 subtle divider -->
     <SolidColorBrush x:Key="OutlineBrush" Color="#FF4C566A"/>
     <SolidColorBrush x:Key="OutlineVariantBrush" Color="#FFD8DEE9"/>
     <SolidColorBrush x:Key="InverseSurfaceBrush" Color="#FF2E3440"/>
     <SolidColorBrush x:Key="InverseOnSurfaceBrush" Color="#FFECEFF4"/>
     <SolidColorBrush x:Key="InversePrimaryBrush" Color="#FF88C0D0"/>
-    <SolidColorBrush x:Key="FilledButtonBackgroundBrush" Color="#FF5E81AC"/>
-    <SolidColorBrush x:Key="FilledButtonForegroundBrush" Color="#FFECEFF4"/>
-    <SolidColorBrush x:Key="RowHoverBrush" Color="#FFE5E9F0"/>
+
+    <!-- Primary button: filled nord9 with dark text -->
+    <SolidColorBrush x:Key="FilledButtonBackgroundBrush" Color="#FF81A1C1"/>
+    <SolidColorBrush x:Key="FilledButtonHoverBackgroundBrush" Color="#FF5E81AC"/>
+    <SolidColorBrush x:Key="FilledButtonForegroundBrush" Color="#FF2E3440"/>
+
+    <!-- Row hover: nord4 light nested surface for clear visible hover contrast -->
+    <SolidColorBrush x:Key="RowHoverBrush" Color="#FFD8DEE9"/>
 </ResourceDictionary>
