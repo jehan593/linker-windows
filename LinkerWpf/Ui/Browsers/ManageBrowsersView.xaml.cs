@@ -2,6 +2,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Linker.Data.Repositories;
 using Linker.Ui.Browsers;
+using Linker.Ui.Components;
 
 namespace Linker.Ui.Browsers
 {
@@ -18,6 +19,7 @@ namespace Linker.Ui.Browsers
         private async void OnRefreshClick(object sender, RoutedEventArgs e)
         {
             await ViewModel.LoadAsync();
+            ToastService.Show("Browser list refreshed");
         }
 
         private async void OnAddBrowserClick(object sender, RoutedEventArgs e)
