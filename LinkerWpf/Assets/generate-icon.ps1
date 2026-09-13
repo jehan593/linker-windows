@@ -1,8 +1,8 @@
 Add-Type -AssemblyName System.Drawing
 
-# Nord0 background, nord8 ring glyph — matches app/src/main/res/drawable/ic_launcher_foreground.xml
+# Nord0 background, nord9 ring glyph — matches app/src/main/res/drawable/ic_launcher_foreground.xml
 $bgColor = [System.Drawing.Color]::FromArgb(255, 0x2E, 0x34, 0x40)   # nord0
-$fgColor = [System.Drawing.Color]::FromArgb(255, 0x88, 0xC0, 0xD0)  # nord8
+$fgColor = [System.Drawing.Color]::FromArgb(255, 0x81, 0xA1, 0xC1)  # nord9
 
 function New-RoundedRectPath([single]$x, [single]$y, [single]$w, [single]$h, [single]$radius) {
     $path = New-Object System.Drawing.Drawing2D.GraphicsPath
