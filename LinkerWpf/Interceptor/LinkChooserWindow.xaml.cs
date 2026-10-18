@@ -141,5 +141,14 @@ namespace Linker.Interceptor
         {
             Close();
         }
+
+        protected override void OnPreviewKeyDown(KeyEventArgs e)
+        {
+            base.OnPreviewKeyDown(e);
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 }
