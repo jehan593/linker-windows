@@ -2,8 +2,32 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:comp="clr-namespace:Linker.Ui.Components">
 
+    <!-- Focus ring: solid rounded nord9 outline for keyboard focus, shown
+         instead of the default dotted rectangle -->
+    <Style x:Key="FocusRing">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border Background="Transparent" BorderBrush="{DynamicResource PrimaryBrush}"
+                            BorderThickness="2" CornerRadius="10"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="FocusRingWide">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border Background="Transparent" BorderBrush="{DynamicResource PrimaryBrush}"
+                            BorderThickness="3" CornerRadius="10" Margin="-1"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!-- FilledButton: Primary action button (filled nord9 with dark text) -->
     <Style x:Key="FilledButtonTheme" TargetType="Button">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusRingWide}"/>
         <Setter Property="FontFamily" Value="{DynamicResource MartianMonoMedium}"/>
         <Setter Property="Background" Value="{DynamicResource FilledButtonBackgroundBrush}"/>
         <Setter Property="Foreground" Value="{DynamicResource FilledButtonForegroundBrush}"/>
@@ -36,6 +60,7 @@
 
     <!-- OutlinedButton / TextButton: Quiet outlined secondary button (transparent, 1px nord3 border, nord9 text) -->
     <Style x:Key="TextButtonTheme" TargetType="Button">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusRing}"/>
         <Setter Property="FontFamily" Value="{DynamicResource MartianMonoMedium}"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="{DynamicResource OutlineBrush}"/>
@@ -75,6 +100,7 @@
 
     <!-- PlainTextButton: Text-only action (dismissal, cancel, low emphasis) -->
     <Style x:Key="PlainTextButtonTheme" TargetType="Button">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusRing}"/>
         <Setter Property="FontFamily" Value="{DynamicResource MartianMonoMedium}"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="0"/>
@@ -112,6 +138,7 @@
 
     <!-- IconButton: compact icon action with quiet rest state and 8px rounded rect hover -->
     <Style x:Key="IconButtonTheme" TargetType="Button">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusRing}"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="{DynamicResource OnSurfaceVariantBrush}"/>
         <Setter Property="BorderThickness" Value="0"/>
@@ -145,6 +172,7 @@
 
     <!-- Switch: CheckBox re-templated as compact Nord toggle switch -->
     <Style x:Key="SwitchTheme" TargetType="CheckBox">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusRing}"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -179,6 +207,7 @@
 
     <!-- TabButton: Softly rounded segmented tab button -->
     <Style x:Key="TabButtonTheme" TargetType="ToggleButton">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusRing}"/>
         <Setter Property="FontFamily" Value="{DynamicResource MartianMonoMedium}"/>
         <Setter Property="FontWeight" Value="Medium"/>
         <Setter Property="FontSize" Value="13"/>
@@ -278,6 +307,7 @@
     </Style>
 
     <Style TargetType="ListBox">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusRing}"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="VirtualizingPanel.ScrollUnit" Value="Pixel"/>
@@ -292,13 +322,15 @@
 
     <!-- ListBoxItem row style -->
     <Style x:Key="BrowserRowItemTheme" TargetType="ListBoxItem">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusRing}"/>
         <Setter Property="Padding" Value="0"/>
+        <Setter Property="Margin" Value="0,2"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBoxItem">
-                    <Border x:Name="rowBg" Background="{TemplateBinding Background}">
+                    <Border x:Name="rowBg" Background="{TemplateBinding Background}" CornerRadius="8">
                         <ContentPresenter Content="{TemplateBinding Content}"
                                           ContentTemplate="{TemplateBinding ContentTemplate}"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
@@ -370,6 +402,7 @@
 
     <!-- Outlined TextBox: 12px rounded, 1px nord3 border, focus nord9 border -->
     <Style x:Key="outlined" TargetType="TextBox">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="FontFamily" Value="{DynamicResource MartianMono}"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="{DynamicResource OnBackgroundBrush}"/>

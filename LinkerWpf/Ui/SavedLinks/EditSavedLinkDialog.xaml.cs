@@ -10,6 +10,7 @@ namespace Linker.Ui.SavedLinks
         {
             InitializeComponent();
             Theme.ImmersiveDarkMode.Apply(this, Theme.ThemeManager.IsDarkActive);
+
             UrlTextBox.Text = currentUrl;
             UrlTextBox.Focus();
             UrlTextBox.SelectAll();

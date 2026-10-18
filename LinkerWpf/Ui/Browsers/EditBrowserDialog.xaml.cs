@@ -33,6 +33,7 @@ namespace Linker.Ui.Browsers
             InitializeComponent();
             ImmersiveDarkMode.Apply(this, ThemeManager.IsDarkActive);
 
+
             if (IsAddMode)
             {
                 Title = TitleText.Text = "Add browser";

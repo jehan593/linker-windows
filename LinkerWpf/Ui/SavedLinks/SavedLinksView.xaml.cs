@@ -66,6 +66,7 @@ namespace Linker.Ui.SavedLinks
             var row = fe?.DataContext as SavedLinkRowEntry;
             if (row == null) return;
             await ViewModel.DeleteAsync(row.Link);
+            ToastService.Show("Link removed");
         }
     }
 }

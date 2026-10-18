@@ -24,6 +24,7 @@ namespace Linker
             InitializeComponent();
             ImmersiveDarkMode.Apply(this, ThemeManager.IsDarkActive);
 
+
             BrowsersView.DataContext = new Ui.Browsers.ManageBrowsersViewModel(container.BrowserPrefsRepository);
             SavedLinksView.DataContext = new Ui.SavedLinks.SavedLinksViewModel(container.SavedLinksRepository);
             DataContext = ViewModel;
