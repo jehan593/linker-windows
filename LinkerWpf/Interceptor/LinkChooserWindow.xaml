@@ -2,11 +2,15 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:comp="clr-namespace:Linker.Ui.Components"
+
         Title="Linker" Width="440" MinWidth="380" SizeToContent="Height" MaxHeight="700"
         WindowStartupLocation="CenterScreen" Topmost="True" ShowInTaskbar="False" ResizeMode="NoResize"
         Background="{DynamicResource BackgroundBrush}"
         Icon="/Assets/app.ico"
-        Loaded="OnWindowLoaded">
+        Loaded="OnWindowLoaded"
+        KeyboardNavigation.TabNavigation="Continue"
+        KeyboardNavigation.ControlTabNavigation="Continue"
+        KeyboardNavigation.DirectionalNavigation="None">
     <Grid>
         <Grid Margin="16">
             <Grid.RowDefinitions>
@@ -14,8 +18,8 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="34"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
@@ -98,9 +102,11 @@
                         </Style>
                     </TextBlock.Style>
                 </TextBlock>
-                <ListBox ItemsSource="{Binding Browsers}" Background="Transparent" BorderThickness="0"
+                <ListBox x:Name="BrowserList" ItemsSource="{Binding Browsers}" Background="Transparent" BorderThickness="0"
                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                         ScrollViewer.VerticalScrollBarVisibility="Auto">
+                         ScrollViewer.VerticalScrollBarVisibility="Auto"
+                         GotKeyboardFocus="OnBrowserListGotKeyboardFocus"
+                         KeyDown="OnBrowserListKeyDown">
                     <ListBox.Style>
                         <Style TargetType="ListBox">
                             <Setter Property="Visibility" Value="Visible"/>
@@ -113,6 +119,7 @@
                     </ListBox.Style>
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
+                            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
                             <Setter Property="Padding" Value="0"/>
                             <Setter Property="Margin" Value="0,3"/>
                             <Setter Property="Background" Value="{DynamicResource SurfaceBrush}"/>
@@ -127,6 +134,9 @@
                                         </Border>
                                         <ControlTemplate.Triggers>
                                             <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="rowBg" Property="Background" Value="{DynamicResource RowHoverBrush}"/>
+                                            </Trigger>
+                                            <Trigger Property="IsSelected" Value="True">
                                                 <Setter TargetName="rowBg" Property="Background" Value="{DynamicResource RowHoverBrush}"/>
                                             </Trigger>
                                         </ControlTemplate.Triggers>
@@ -155,9 +165,10 @@
                 </ListBox>
             </Grid>
 
-            <comp:ToastHostControl Grid.Row="5"/>
+            <comp:ToastHostControl Grid.Row="0" Grid.RowSpan="7" Panel.ZIndex="10" Margin="0,0,0,42"
+                                   VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
 
-            <Grid Grid.Row="6" Margin="0,8,0,0">
+            <Grid Grid.Row="6" Margin="0,12,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>

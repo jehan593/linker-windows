@@ -68,10 +68,21 @@ namespace Linker.Util
 
         private static bool IsDefaultFor(string scheme)
         {
-            using (var key = Registry.CurrentUser.OpenSubKey(UrlAssociationsKeyPath + @"\" + scheme + @"\UserChoice"))
+            // Windows 11 24H2+ can store the choice in UserChoiceLatest and
+            // ignore the old UserChoice key entirely, so check it first.
+            var progId = ReadProgId(UrlAssociationsKeyPath + @"\" + scheme + @"\UserChoiceLatest\ProgId");
+            if (string.IsNullOrEmpty(progId))
             {
-                var progId = key?.GetValue("ProgId") as string;
-                return string.Equals(progId, AppIdentity.ProgId, System.StringComparison.OrdinalIgnoreCase);
+                progId = ReadProgId(UrlAssociationsKeyPath + @"\" + scheme + @"\UserChoice");
+            }
+            return string.Equals(progId, AppIdentity.ProgId, System.StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static string ReadProgId(string subKeyPath)
+        {
+            using (var key = Registry.CurrentUser.OpenSubKey(subKeyPath))
+            {
+                return key?.GetValue("ProgId") as string;
             }
         }
 
