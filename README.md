@@ -5,7 +5,7 @@
 <h1 align="center">Linker</h1>
 
 <p align="center">
-  Pick which browser opens a link — every time.
+  Pick which browser opens a link ΓÇö every time.
 </p>
 
 <p align="center">
@@ -17,11 +17,11 @@
 
 ---
 
-> **FYI:** this project is fully vibe-coded
+> **FYI:** This project is fully vibe coded for my personal use and taste. It's shared publicly in case it's useful to you. Feel free to fork it and adapt it to your needs.
 
 Windows only lets you set one default browser. Linker sits in front of that:
 open any link, a small popup asks which browser should handle it. Built with
-WPF on .NET Framework 4.8, which ships with Windows — no runtime to install.
+WPF on .NET Framework 4.8, which ships with Windows ΓÇö no runtime to install.
 
 ## Features
 
@@ -37,7 +37,7 @@ Download `LinkerSetup.exe` from the [Releases page](https://github.com/jehan593/
 and run it. It installs per-user, no admin prompt.
 
 Then set Linker as your default app for `HTTP` and `HTTPS`:
-Windows Settings → Apps → Default apps.
+Windows Settings ΓåÆ Apps ΓåÆ Default apps.
 
 ## Build from source
 
