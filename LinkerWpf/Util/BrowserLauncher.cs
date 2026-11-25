@@ -14,11 +14,18 @@ namespace Linker.Util
             try
             {
                 var info = new ProcessStartInfo(exePath) { UseShellExecute = true };
-                if (!string.IsNullOrWhiteSpace(browser.ExtraArguments))
+                var args = browser.ExtraArguments ?? string.Empty;
+                var quotedUrl = CommandLineUtils.QuoteArgument(url);
+                if (args.Contains("%1"))
                 {
-                    info.Arguments = browser.ExtraArguments;
+                    info.Arguments = args.Replace("%1", quotedUrl);
                 }
-                info.Arguments += " " + url;
+                else
+                {
+                    info.Arguments = string.IsNullOrWhiteSpace(args)
+                        ? quotedUrl
+                        : args + " " + quotedUrl;
+                }
                 Process.Start(info);
                 return true;
             }

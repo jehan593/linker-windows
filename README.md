@@ -26,6 +26,7 @@ WPF on .NET Framework 4.8, which ships with Windows — no runtime to install.
 ## Features
 
 - Choose a browser every time you open a link
+- Honors each registered browser's launch arguments, so separate profiles open correctly
 - Add, remove, and reorder your browsers
 - Save links to open later, with search
 - Light/dark theme that follows Windows

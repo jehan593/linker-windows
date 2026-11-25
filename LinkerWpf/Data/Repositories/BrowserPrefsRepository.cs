@@ -45,6 +45,10 @@ namespace Linker.Data.Repositories
                 var orderIndex = pref != null ? pref.OrderIndex : nextOrder++;
                 var displayLabel = pref != null && !string.IsNullOrWhiteSpace(pref.CustomLabel) ? pref.CustomLabel : info.SystemLabel;
                 var systemExecutablePath = CommandLineUtils.ExtractExecutablePath(info.ExecutableCommand);
+                var systemArguments = CommandLineUtils.ExtractArguments(info.ExecutableCommand);
+                var effectiveArguments = !string.IsNullOrWhiteSpace(pref?.ExtraArguments)
+                    ? pref.ExtraArguments
+                    : systemArguments;
 
                 var icon = info.Icon;
                 if (pref != null && !string.IsNullOrWhiteSpace(pref.CustomIconPath))
@@ -60,7 +64,7 @@ namespace Linker.Data.Repositories
                     info.Id, info.SystemLabel, displayLabel, systemExecutablePath,
                     pref != null ? pref.CustomExecutablePath : null,
                     pref != null ? pref.CustomIconPath : null,
-                    pref != null ? pref.ExtraArguments : null,
+                    effectiveArguments,
                     icon, pref != null && pref.Hidden, orderIndex, isCustom: false));
             }
 

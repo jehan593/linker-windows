@@ -16,6 +16,31 @@ namespace Linker.Util
             return spaceIndex > 0 ? trimmed.Substring(0, spaceIndex) : trimmed;
         }
 
+        public static string ExtractArguments(string command)
+        {
+            if (string.IsNullOrWhiteSpace(command)) return string.Empty;
+            var trimmed = command.Trim();
+            var index = 0;
+
+            if (trimmed[0] == '"')
+            {
+                var closingQuote = trimmed.IndexOf('"', 1);
+                if (closingQuote < 0) return string.Empty;
+                index = closingQuote + 1;
+            }
+            else
+            {
+                while (index < trimmed.Length && !char.IsWhiteSpace(trimmed[index])) index++;
+            }
+
+            return index < trimmed.Length ? trimmed.Substring(index).Trim() : string.Empty;
+        }
+
+        public static string QuoteArgument(string value)
+        {
+            return "\"" + (value ?? string.Empty).Replace("\"", "%22") + "\"";
+        }
+
         public static System.Collections.Generic.List<string> SplitArguments(string argumentString)
         {
             var result = new System.Collections.Generic.List<string>();
