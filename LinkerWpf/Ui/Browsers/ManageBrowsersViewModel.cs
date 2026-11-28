@@ -72,21 +72,22 @@ namespace Linker.Ui.Browsers
         }
 
         public async Task SaveOverridesAsync(
-            BrowserListItem browser, string label, string executablePath, string iconPath, string extraArguments)
+            BrowserListItem browser, string label, string executablePath, string iconPath, string extraArguments,
+            string privateWindowArgument, bool privateWindowEnabled)
         {
-            await _browserPrefsRepository.SetOverridesAsync(browser.Id, label, executablePath, iconPath, extraArguments);
+            await _browserPrefsRepository.SetOverridesAsync(
+                browser.Id, label, executablePath, iconPath, extraArguments,
+                privateWindowArgument, privateWindowEnabled);
             await LoadAsync();
         }
 
-        public async Task ResetOverridesAsync(BrowserListItem browser)
+        public async Task AddCustomBrowserAsync(
+            string label, string executablePath, string iconPath, string extraArguments,
+            string privateWindowArgument, bool privateWindowEnabled)
         {
-            await _browserPrefsRepository.SetOverridesAsync(browser.Id, null, null, null, null);
-            await LoadAsync();
-        }
-
-        public async Task AddCustomBrowserAsync(string label, string executablePath, string iconPath, string extraArguments)
-        {
-            await _browserPrefsRepository.AddCustomBrowserAsync(label, executablePath, iconPath, extraArguments);
+            await _browserPrefsRepository.AddCustomBrowserAsync(
+                label, executablePath, iconPath, extraArguments,
+                privateWindowArgument, privateWindowEnabled);
             await LoadAsync();
         }
 

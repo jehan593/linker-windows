@@ -65,7 +65,10 @@ namespace Linker.Data.Repositories
                     pref != null ? pref.CustomExecutablePath : null,
                     pref != null ? pref.CustomIconPath : null,
                     effectiveArguments,
-                    icon, pref != null && pref.Hidden, orderIndex, isCustom: false));
+                    icon, pref != null && pref.Hidden, orderIndex, isCustom: false,
+                    privateWindowArgumentOverride: pref != null ? pref.PrivateWindowArgument : null,
+                    privateWindowEnabled: pref != null ? pref.PrivateWindowEnabled : null,
+                    defaultArguments: systemArguments));
             }
 
             foreach (var pref in prefs.Where(p => p.IsCustom))
@@ -77,7 +80,10 @@ namespace Linker.Data.Repositories
                 items.Add(new BrowserListItem(
                     pref.Id, label, label, pref.CustomExecutablePath ?? string.Empty,
                     null, pref.CustomIconPath, pref.ExtraArguments,
-                    icon, pref.Hidden, pref.OrderIndex, isCustom: true));
+                    icon, pref.Hidden, pref.OrderIndex, isCustom: true,
+                    privateWindowArgumentOverride: pref.PrivateWindowArgument,
+                    privateWindowEnabled: pref.PrivateWindowEnabled,
+                    defaultArguments: pref.ExtraArguments));
             }
 
             items = items.OrderBy(a => a.OrderIndex).ToList();
@@ -92,7 +98,8 @@ namespace Linker.Data.Repositories
 
         public Task SetOverridesAsync(
             string id,
-            string customLabel, string customExecutablePath, string customIconPath, string extraArguments)
+            string customLabel, string customExecutablePath, string customIconPath, string extraArguments,
+            string privateWindowArgument, bool? privateWindowEnabled)
         {
             _store.Mutate(data =>
             {
@@ -101,6 +108,8 @@ namespace Linker.Data.Repositories
                 pref.CustomExecutablePath = EmptyToNull(customExecutablePath);
                 pref.CustomIconPath = EmptyToNull(customIconPath);
                 pref.ExtraArguments = EmptyToNull(extraArguments);
+                pref.PrivateWindowArgument = EmptyToNull(privateWindowArgument);
+                pref.PrivateWindowEnabled = privateWindowEnabled;
             });
             return Task.CompletedTask;
         }
@@ -108,7 +117,8 @@ namespace Linker.Data.Repositories
         private static string EmptyToNull(string value) => string.IsNullOrWhiteSpace(value) ? null : value;
 
         public Task AddCustomBrowserAsync(
-            string label, string executablePath, string iconPath, string extraArguments)
+            string label, string executablePath, string iconPath, string extraArguments,
+            string privateWindowArgument, bool privateWindowEnabled)
         {
             _store.Mutate(data =>
             {
@@ -122,6 +132,8 @@ namespace Linker.Data.Repositories
                     CustomExecutablePath = executablePath,
                     CustomIconPath = EmptyToNull(iconPath),
                     ExtraArguments = EmptyToNull(extraArguments),
+                    PrivateWindowArgument = EmptyToNull(privateWindowArgument),
+                    PrivateWindowEnabled = privateWindowEnabled,
                     IsCustom = true,
                 });
             });

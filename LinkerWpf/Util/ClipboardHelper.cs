@@ -1,5 +1,5 @@
 using System;
-using System.Windows;
+using WinFormsClipboard = System.Windows.Forms.Clipboard;
 
 namespace Linker.Util
 {
@@ -9,7 +9,8 @@ namespace Linker.Util
         {
             try
             {
-                Clipboard.SetText(text);
+                // WinForms has a retrying overload for brief clipboard locks.
+                WinFormsClipboard.SetDataObject(text, true, 10, 100);
                 return true;
             }
             catch (Exception)

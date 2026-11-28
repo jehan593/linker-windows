@@ -60,6 +60,11 @@ namespace Linker.Interceptor
             await Task.WhenAll(loadBrowsers, checkSaved);
         }
 
+        public Task ReloadBrowsersAsync()
+        {
+            return LoadBrowsersAsync();
+        }
+
         private async Task LoadBrowsersAsync()
         {
             var list = await _browserPrefsRepository.GetVisibleBrowsersAsync();

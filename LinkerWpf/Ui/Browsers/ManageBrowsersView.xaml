@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:repo="clr-namespace:Linker.Data.Repositories"
+             xmlns:util="clr-namespace:Linker.Util"
              xmlns:local="clr-namespace:Linker.Ui.Browsers">
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type repo:BrowserListItem}">
@@ -167,6 +168,7 @@
                  ItemsSource="{Binding Browsers}"
                  Background="Transparent" BorderThickness="0"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                 ItemContainerStyle="{StaticResource BrowserRowItemTheme}"/>
+                 ItemContainerStyle="{StaticResource BrowserRowItemTheme}"
+                 util:SmoothScroll.Enabled="True"/>
     </Grid>
 </UserControl>

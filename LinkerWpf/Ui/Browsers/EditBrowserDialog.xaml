@@ -14,7 +14,7 @@
         <TextBlock x:Name="TitleText" Grid.Row="0" Text="Edit browser" Style="{StaticResource title}" FontSize="15" Margin="0,0,0,16"/>
 
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="0,0,0,12">
-            <StackPanel>
+            <StackPanel Margin="0,0,10,0">
                 <Grid Margin="0,0,0,16">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -38,7 +38,7 @@
 
                 <StackPanel Margin="0,0,0,16">
                     <TextBlock Text="Display name" Style="{StaticResource label}" Margin="0,0,0,4"/>
-                    <TextBox x:Name="LabelTextBox" Style="{StaticResource outlined}"/>
+                    <TextBox x:Name="LabelTextBox" Style="{StaticResource outlined}" TextChanged="OnPrivateFieldsChanged"/>
                 </StackPanel>
 
                 <StackPanel Margin="0,0,0,16">
@@ -48,7 +48,7 @@
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <TextBox x:Name="ExecutablePathTextBox" Grid.Row="0" Style="{StaticResource outlined}"
+                        <TextBox x:Name="ExecutablePathTextBox" Grid.Row="0" Style="{StaticResource outlined}" TextChanged="OnPrivateFieldsChanged"
                                  FontSize="12" TextWrapping="Wrap" MinLines="3" MaxLines="3" AcceptsReturn="True"
                                  VerticalScrollBarVisibility="Auto"/>
                         <Button Grid.Row="1" Grid.Column="0" Margin="0,6,0,0"
@@ -58,13 +58,27 @@
                     </Grid>
                 </StackPanel>
 
-                <StackPanel>
+                <StackPanel Margin="0,0,0,16">
                     <TextBlock Text="Extra launch arguments (optional)" Style="{StaticResource label}" Margin="0,0,0,4"/>
                     <TextBox x:Name="ArgumentsTextBox" Style="{StaticResource outlined}" FontSize="12"
                              TextWrapping="Wrap" MinLines="3" MaxLines="3" AcceptsReturn="True"
                              VerticalScrollBarVisibility="Auto"/>
                     <TextBlock Style="{StaticResource bodySmall}" FontSize="11" Margin="0,4,0,0" TextWrapping="Wrap"
                                Text="Space-separated, added before the link — e.g. --private-window --new-window. Use double quotes around an argument that contains spaces."/>
+                </StackPanel>
+
+                <StackPanel>
+                    <CheckBox x:Name="PrivateEnabledCheckBox" Content="Show Private button"
+                              Foreground="{DynamicResource OnSurfaceBrush}" Margin="0,0,0,10"
+                              Checked="OnPrivateEnabledChanged" Unchecked="OnPrivateEnabledChanged"/>
+                    <TextBlock Text="Private window argument (optional)" Style="{StaticResource label}" Margin="0,0,0,4"/>
+                    <TextBox x:Name="PrivateArgumentTextBox" Style="{StaticResource outlined}" FontSize="12"
+                             TextWrapping="Wrap" MinLines="2" MaxLines="2" AcceptsReturn="True"
+                             VerticalScrollBarVisibility="Auto"/>
+                    <TextBlock x:Name="DetectedPrivateHintText" Style="{StaticResource bodySmall}" FontSize="11"
+                               Margin="0,4,0,0" TextWrapping="Wrap"/>
+                    <TextBlock Style="{StaticResource bodySmall}" FontSize="11" Margin="0,2,0,0" TextWrapping="Wrap"
+                               Text="Tick to show the Private button. Leave the flag blank to use the detected default, or type the browser's own flag — e.g. --incognito, -private-window or --inprivate."/>
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>

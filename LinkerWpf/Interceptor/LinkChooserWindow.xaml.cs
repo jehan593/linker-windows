@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Threading;
 using Linker.Data.Repositories;
 using Linker.Di;
@@ -15,6 +16,7 @@ namespace Linker.Interceptor
         public partial class LinkChooserWindow : Window
         {
             private readonly AppContainer _container;
+            private MainWindow _manageWindow;
             public LinkChooserViewModel ViewModel { get; }
 
             public LinkChooserWindow(string url, AppContainer container)
@@ -77,7 +79,7 @@ namespace Linker.Interceptor
             var browser = BrowserList.SelectedItem as BrowserListItem;
             if (browser == null) return;
             e.Handled = true;
-            OpenInBrowser(browser);
+            OpenInBrowser(browser, privateWindow: false);
         }
 
         private void OnBrowserListGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
@@ -106,35 +108,98 @@ namespace Linker.Interceptor
 
         private void OnBrowserRowClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+            // The private button sits inside the row; don't open normally when it is clicked.
+            if (IsInsideButton(e.OriginalSource as DependencyObject)) return;
+
             var frameworkElement = sender as FrameworkElement;
             var browser = frameworkElement?.DataContext as BrowserListItem;
             if (browser == null) return;
-            OpenInBrowser(browser);
+            OpenInBrowser(browser, privateWindow: false);
         }
 
-        private void OpenInBrowser(BrowserListItem browser)
+        private void OnPrivateClick(object sender, RoutedEventArgs e)
         {
-            if (!BrowserLauncher.TryOpen(browser, ViewModel.EditableUrl))
+            var button = sender as Button;
+            var browser = button?.DataContext as BrowserListItem;
+            if (browser == null) return;
+            OpenInBrowser(browser, privateWindow: true);
+        }
+
+        private void OpenInBrowser(BrowserListItem browser, bool privateWindow)
+        {
+            // Let the browser take the foreground instead of staying behind us.
+            Topmost = false;
+            var opened = privateWindow
+                ? BrowserLauncher.TryOpenPrivate(browser, ViewModel.EditableUrl)
+                : BrowserLauncher.TryOpen(browser, ViewModel.EditableUrl);
+            if (!opened)
             {
+                Topmost = true;
                 ToastService.Show("Couldn't open that link");
                 return;
             }
             Close();
         }
 
+        private static bool IsInsideButton(DependencyObject element)
+        {
+            while (element != null)
+            {
+                if (element is Button) return true;
+                element = VisualTreeHelper.GetParent(element);
+            }
+            return false;
+        }
+
         private void OnManageBrowsersClick(object sender, RoutedEventArgs e)
         {
-            var mainWindow = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
+            var mainWindow = _manageWindow ?? Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
             if (mainWindow == null)
             {
                 mainWindow = new MainWindow(_container);
-                mainWindow.Show();
+                mainWindow.Activated += OnManageWindowActivated;
+                mainWindow.Closed += OnManageWindowClosed;
             }
-            else
+            _manageWindow = mainWindow;
+
+            // Let the manage window sit in front of the popup.
+            Topmost = false;
+            if (mainWindow.IsVisible)
             {
                 mainWindow.Activate();
             }
-            Close();
+            else
+            {
+                mainWindow.Show();
+            }
+        }
+
+        private async void OnManageWindowActivated(object sender, EventArgs e)
+        {
+            await ViewModel.ReloadBrowsersAsync();
+        }
+
+        private void OnManageWindowClosed(object sender, EventArgs e)
+        {
+            DetachManageWindow(sender as MainWindow);
+
+            Topmost = true;
+            Activate();
+            _ = ViewModel.ReloadBrowsersAsync();
+        }
+
+        private void DetachManageWindow(MainWindow window)
+        {
+            if (window == null) return;
+            window.Activated -= OnManageWindowActivated;
+            window.Closed -= OnManageWindowClosed;
+            if (ReferenceEquals(window, _manageWindow)) _manageWindow = null;
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            DetachManageWindow(_manageWindow);
+            base.OnClosed(e);
         }
 
         private void OnCancelClick(object sender, RoutedEventArgs e)

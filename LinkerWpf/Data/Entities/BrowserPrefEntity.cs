@@ -9,6 +9,8 @@ namespace Linker.Data.Entities
         public string CustomExecutablePath { get; set; }
         public string CustomIconPath { get; set; }
         public string ExtraArguments { get; set; }
+        public string PrivateWindowArgument { get; set; }
+        public bool? PrivateWindowEnabled { get; set; }
         public bool IsCustom { get; set; }
     }
 }

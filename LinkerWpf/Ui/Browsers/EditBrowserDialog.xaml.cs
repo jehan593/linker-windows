@@ -17,12 +17,14 @@ namespace Linker.Ui.Browsers
         private bool IsCustomBrowser => _browser != null && _browser.IsCustom;
 
         private string _customIconPath;
+        private string _detectedPrivateArgument;
 
         public string NewLabel { get; private set; } = string.Empty;
         public string NewExecutablePath { get; private set; } = string.Empty;
         public string NewIconPath { get; private set; }
         public string NewExtraArguments { get; private set; }
-        public bool WasReset { get; private set; }
+        public string NewPrivateWindowArgument { get; private set; } = string.Empty;
+        public bool NewPrivateWindowEnabled { get; private set; }
         public bool WasDeleted { get; private set; }
 
         public EditBrowserDialog() : this(null) { }
@@ -41,17 +43,13 @@ namespace Linker.Ui.Browsers
                 ResetButton.Visibility = Visibility.Collapsed;
                 DeleteButton.Visibility = Visibility.Collapsed;
                 PreviewIconImage.Source = IconExtractor.GetPlaceholder();
+                PrivateEnabledCheckBox.IsChecked = false;
+                PrivateArgumentTextBox.IsEnabled = false;
+                UpdatePrivateHint();
             }
             else
             {
-                var b = browser;
-                LabelTextBox.Text = b.DisplayLabel;
-                ExecutablePathTextBox.Text = !string.IsNullOrWhiteSpace(b.CustomExecutablePath)
-                    ? b.CustomExecutablePath
-                    : b.SystemExecutablePath;
-                _customIconPath = b.CustomIconPath;
-                ArgumentsTextBox.Text = b.ExtraArguments ?? string.Empty;
-                PreviewIconImage.Source = b.Icon;
+                ApplyFields(browser, defaults: false);
 
                 if (IsCustomBrowser)
                 {
@@ -68,6 +66,51 @@ namespace Linker.Ui.Browsers
             UpdateIconHint();
             LabelTextBox.Focus();
             LabelTextBox.SelectAll();
+        }
+
+        private void ApplyFields(BrowserListItem browser, bool defaults)
+        {
+            LabelTextBox.Text = defaults ? browser.SystemLabel : browser.DisplayLabel;
+            ExecutablePathTextBox.Text = defaults || string.IsNullOrWhiteSpace(browser.CustomExecutablePath)
+                ? browser.SystemExecutablePath
+                : browser.CustomExecutablePath;
+            _customIconPath = defaults ? null : browser.CustomIconPath;
+            ArgumentsTextBox.Text = defaults
+                ? browser.DefaultArguments ?? string.Empty
+                : browser.ExtraArguments ?? string.Empty;
+            PrivateEnabledCheckBox.IsChecked = defaults ? false : browser.PrivateWindowEnabled;
+            PrivateArgumentTextBox.Text = defaults
+                ? string.Empty
+                : browser.PrivateWindowArgumentOverride ?? string.Empty;
+            PrivateArgumentTextBox.IsEnabled = !defaults && browser.PrivateWindowEnabled;
+
+            UpdatePrivateHint();
+
+            PreviewIconImage.Source = defaults
+                ? IconExtractor.ExtractIcon(browser.SystemExecutablePath)
+                    ?? browser.Icon
+                    ?? IconExtractor.GetPlaceholder()
+                : browser.Icon;
+            UpdateIconHint();
+        }
+
+        private void UpdatePrivateHint()
+        {
+            _detectedPrivateArgument = PrivateWindowSupport.GetArgument(
+                ExecutablePathTextBox.Text, LabelTextBox.Text);
+            DetectedPrivateHintText.Text = string.IsNullOrWhiteSpace(_detectedPrivateArgument)
+                ? "Detected: none"
+                : "Detected default: " + _detectedPrivateArgument;
+        }
+
+        private void OnPrivateFieldsChanged(object sender, TextChangedEventArgs e)
+        {
+            UpdatePrivateHint();
+        }
+
+        private void OnPrivateEnabledChanged(object sender, RoutedEventArgs e)
+        {
+            PrivateArgumentTextBox.IsEnabled = PrivateEnabledCheckBox.IsChecked == true;
         }
 
         private void UpdateIconHint()
@@ -153,13 +196,22 @@ namespace Linker.Ui.Browsers
             NewLabel = typedLabel;
             NewIconPath = _customIconPath;
             NewExtraArguments = ArgumentsTextBox.Text;
+            NewPrivateWindowEnabled = PrivateEnabledCheckBox.IsChecked == true;
+            if (NewPrivateWindowEnabled &&
+                string.IsNullOrWhiteSpace(PrivateArgumentTextBox.Text) &&
+                string.IsNullOrWhiteSpace(_detectedPrivateArgument))
+            {
+                ToastService.Show("Enter a private window flag");
+                return;
+            }
+            NewPrivateWindowArgument = PrivateArgumentTextBox.Text;
             DialogResult = true;
         }
 
         private void OnResetClick(object sender, RoutedEventArgs e)
         {
-            WasReset = true;
-            DialogResult = true;
+            if (IsAddMode) return;
+            ApplyFields(_browser, defaults: true);
         }
 
         private void OnDeleteClick(object sender, RoutedEventArgs e)

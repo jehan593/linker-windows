@@ -30,7 +30,10 @@ namespace Linker.Ui.Browsers
             var saved = dialog.ShowDialog() == true;
             if (!saved) return;
 
-            await ViewModel.AddCustomBrowserAsync(dialog.NewLabel, dialog.NewExecutablePath, dialog.NewIconPath, dialog.NewExtraArguments);
+            await ViewModel.AddCustomBrowserAsync(
+                dialog.NewLabel, dialog.NewExecutablePath, dialog.NewIconPath,
+                dialog.NewExtraArguments, dialog.NewPrivateWindowArgument,
+                dialog.NewPrivateWindowEnabled);
         }
 
         private async void OnVisibilityToggled(object sender, RoutedEventArgs e)
@@ -56,13 +59,12 @@ namespace Linker.Ui.Browsers
             {
                 await ViewModel.DeleteCustomBrowserAsync(browser);
             }
-            else if (dialog.WasReset)
-            {
-                await ViewModel.ResetOverridesAsync(browser);
-            }
             else
             {
-                await ViewModel.SaveOverridesAsync(browser, dialog.NewLabel, dialog.NewExecutablePath, dialog.NewIconPath, dialog.NewExtraArguments);
+                await ViewModel.SaveOverridesAsync(
+                    browser, dialog.NewLabel, dialog.NewExecutablePath, dialog.NewIconPath,
+                    dialog.NewExtraArguments, dialog.NewPrivateWindowArgument,
+                    dialog.NewPrivateWindowEnabled);
             }
         }
 
