@@ -12,7 +12,7 @@ namespace Linker.Util
     public static class SmoothScroll
     {
         private const double WheelDeltaPerRow = 120;
-        private const double TimeConstantMs = 70;
+        private const double TimeConstantMs = 60;
 
         private static readonly HashSet<ScrollState> Active = new HashSet<ScrollState>();
 
@@ -29,16 +29,11 @@ namespace Linker.Util
 
         private static void OnEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is ScrollViewer viewer)
-            {
-                viewer.PreviewMouseWheel -= OnWheel;
-                if ((bool)e.NewValue) viewer.PreviewMouseWheel += OnWheel;
-            }
-            else if (d is ListBox list)
-            {
-                list.PreviewMouseWheel -= OnWheel;
-                if ((bool)e.NewValue) list.PreviewMouseWheel += OnWheel;
-            }
+            if (!(d is UIElement element)) return;
+            if (!(d is ScrollViewer || d is ListBox || d is TextBox)) return;
+
+            element.PreviewMouseWheel -= OnWheel;
+            if ((bool)e.NewValue) element.PreviewMouseWheel += OnWheel;
         }
 
         private static void OnWheel(object sender, MouseWheelEventArgs e)

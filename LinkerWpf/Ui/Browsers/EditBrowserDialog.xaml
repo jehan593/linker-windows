@@ -1,6 +1,7 @@
 <Window x:Class="Linker.Ui.Browsers.EditBrowserDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:util="clr-namespace:Linker.Util"
         Title="Edit browser" Height="560" Width="460" MinHeight="420" MinWidth="380"
         WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
         Background="{DynamicResource SurfaceBrush}">
@@ -13,7 +14,7 @@
 
         <TextBlock x:Name="TitleText" Grid.Row="0" Text="Edit browser" Style="{StaticResource title}" FontSize="15" Margin="0,0,0,16"/>
 
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="0,0,0,12">
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="0,0,0,12" util:SmoothScroll.Enabled="True">
             <StackPanel Margin="0,0,10,0">
                 <Grid Margin="0,0,0,16">
                     <Grid.ColumnDefinitions>
@@ -48,7 +49,7 @@
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <TextBox x:Name="ExecutablePathTextBox" Grid.Row="0" Style="{StaticResource outlined}" TextChanged="OnPrivateFieldsChanged"
+                        <TextBox x:Name="ExecutablePathTextBox" Grid.Row="0" Style="{StaticResource outlined}" TextChanged="OnPrivateFieldsChanged" util:SmoothScroll.Enabled="True"
                                  FontSize="12" TextWrapping="Wrap" MinLines="3" MaxLines="3" AcceptsReturn="True"
                                  VerticalScrollBarVisibility="Auto"/>
                         <Button Grid.Row="1" Grid.Column="0" Margin="0,6,0,0"
@@ -60,7 +61,7 @@
 
                 <StackPanel Margin="0,0,0,16">
                     <TextBlock Text="Extra launch arguments (optional)" Style="{StaticResource label}" Margin="0,0,0,4"/>
-                    <TextBox x:Name="ArgumentsTextBox" Style="{StaticResource outlined}" FontSize="12"
+                    <TextBox x:Name="ArgumentsTextBox" Style="{StaticResource outlined}" FontSize="12" util:SmoothScroll.Enabled="True"
                              TextWrapping="Wrap" MinLines="3" MaxLines="3" AcceptsReturn="True"
                              VerticalScrollBarVisibility="Auto"/>
                     <TextBlock Style="{StaticResource bodySmall}" FontSize="11" Margin="0,4,0,0" TextWrapping="Wrap"
@@ -72,7 +73,7 @@
                               Foreground="{DynamicResource OnSurfaceBrush}" Margin="0,0,0,10"
                               Checked="OnPrivateEnabledChanged" Unchecked="OnPrivateEnabledChanged"/>
                     <TextBlock Text="Private window argument (optional)" Style="{StaticResource label}" Margin="0,0,0,4"/>
-                    <TextBox x:Name="PrivateArgumentTextBox" Style="{StaticResource outlined}" FontSize="12"
+                    <TextBox x:Name="PrivateArgumentTextBox" Style="{StaticResource outlined}" FontSize="12" util:SmoothScroll.Enabled="True"
                              TextWrapping="Wrap" MinLines="2" MaxLines="2" AcceptsReturn="True"
                              VerticalScrollBarVisibility="Auto"/>
                     <TextBlock x:Name="DetectedPrivateHintText" Style="{StaticResource bodySmall}" FontSize="11"

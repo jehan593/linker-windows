@@ -79,7 +79,8 @@
             <TextBox Grid.Row="1" x:Name="UrlTextBox" Style="{StaticResource outlined}"
                      Text="{Binding EditableUrl, UpdateSourceTrigger=PropertyChanged}"
                      TextWrapping="Wrap" AcceptsReturn="True" MinLines="4" MaxLines="4"
-                     MinWidth="200" FontSize="12" VerticalScrollBarVisibility="Auto" Margin="0,0,0,12"/>
+                     MinWidth="200" FontSize="12" VerticalScrollBarVisibility="Auto" Margin="0,0,0,12"
+                     util:SmoothScroll.Enabled="True"/>
 
             <Border Grid.Row="2" Height="1" Background="{DynamicResource OutlineVariantBrush}" Margin="0,0,0,12"/>
 
@@ -111,7 +112,7 @@
                          KeyDown="OnBrowserListKeyDown"
                          util:SmoothScroll.Enabled="True">
                     <ListBox.Style>
-                        <Style TargetType="ListBox">
+                        <Style TargetType="ListBox" BasedOn="{StaticResource {x:Type ListBox}}">
                             <Setter Property="Visibility" Value="Visible"/>
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding LoadingBrowsers}" Value="True">

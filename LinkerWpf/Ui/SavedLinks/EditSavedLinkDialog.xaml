@@ -1,6 +1,7 @@
 <Window x:Class="Linker.Ui.SavedLinks.EditSavedLinkDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:util="clr-namespace:Linker.Util"
         Title="Edit link" Width="420" SizeToContent="Height"
         WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
         Background="{DynamicResource SurfaceBrush}">
@@ -19,7 +20,7 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <TextBlock Text="Link" Style="{StaticResource label}" Margin="0,0,0,4"/>
-            <TextBox Grid.Row="1" x:Name="UrlTextBox" Style="{StaticResource outlined}" TextWrapping="Wrap" AcceptsReturn="True"
+            <TextBox Grid.Row="1" x:Name="UrlTextBox" Style="{StaticResource outlined}" TextWrapping="Wrap" AcceptsReturn="True" util:SmoothScroll.Enabled="True"
                      MinWidth="200" VerticalScrollBarVisibility="Auto" MinLines="4" MaxLines="4"/>
         </Grid>
 
